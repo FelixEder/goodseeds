@@ -1,6 +1,19 @@
 export const createNumber = (number) => {
     return (dispatch, getState, { getFirebase, getFirestore }) => {
+        console.log("dispatching... " + number)
+
         // make async call to db
-        dispatch({ type: 'CREATE_NUMBER', number })
+        const firestore = getFirestore();
+        firestore.collection('test').add({
+            number: number
+        }).then(
+            () => {
+                // dispatch to store
+                dispatch({ type: 'CREATE_NUMBER', number })
+            }
+        ).catch(err => console.error(err))
+
+
+        
     }
 };

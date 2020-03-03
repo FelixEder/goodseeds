@@ -9,23 +9,24 @@ import rootReducer from './store/reducers/rootReducer'
 // Redux-react imports
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
-import thunk from 'react-thunk'
+import thunk from 'redux-thunk'
 
 // Firebase imports
 import { ReactReduxFirebaseProvider, firebaseReducer } from 'react-redux-firebase'
-import { getFirestore } from 'redux-firestore'
-import { getFirebase } from 'react-redux-firebase'
+import { reduxFirestore, getFirestore } from 'redux-firestore'
+import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 
-// var admin = require("firebase-admin");
-var serviceAccount = require("./config/serviceAccountKey.json");
-const store = createStore(rootReducer, applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })));
+// Config import
+import firebaseConfig from './config/Config.js'
+import firebase from 'firebase/app'
 
-firebase.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://goodseeds-6ae68.firebaseio.com"
-  }
-)
-
+const store = createStore(
+  rootReducer,
+  compose(
+    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    reduxFirestore(firebase, firebaseConfig)
+  )
+);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
