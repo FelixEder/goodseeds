@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 
 const rootReducer = combineReducers({
     number: numberReducer,
-    array: arrayReducer
+    // array: arrayReducer
 })
 
 export default rootReducer;
