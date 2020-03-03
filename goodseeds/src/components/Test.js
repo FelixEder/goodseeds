@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createNumber } from '../store/actions/numberActions'
 
 
-const NavBar = () => {
+const NavBar = ({createNumber}) => {
   return(
     <div>
       <button onClick={() => createNumber(5)}>
@@ -20,7 +20,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(NavBar)
+export default connect(null, mapDispatchToProps)(NavBar)
