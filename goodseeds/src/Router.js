@@ -1,5 +1,5 @@
 import React from 'react';
-import TopBar from './components/TopBar';
+import NavBar from './components/NavBar';
 import StartPage from './components/StartPage';
 import UserProfile from './components/UserProfile';
 import PlantDetails from './components/PlantDetails';
@@ -14,7 +14,7 @@ export default function Router() {
   return (
     <div className="router">
       <BrowserRouter>
-        <TopBar />
+        <NavBar />
         <Switch>
           <Route exact path="/">
             <StartPage />

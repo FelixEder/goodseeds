@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 const SearchBar = () => {
   return (
     <div className='search-bar'>
-      This is the search bar
+      <input placeholder='Type to search'/>
+      <button>Search</button>
     </div>
   )
 }
