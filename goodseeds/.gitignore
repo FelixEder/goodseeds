@@ -2,6 +2,7 @@
 
 **/serviceAccountKey.json*
 
+*/*Config.js
 # dependencies
 /node_modules
 /.pnp
@@ -48,6 +49,7 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
+src\config\Config.js
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
