@@ -17,7 +17,7 @@ import { reduxFirestore, getFirestore } from 'redux-firestore'
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase'
 
 // Config import
-import firebaseConfig from './config/Config.js'
+import firebaseConfig from './config/FirebaseConfig.js'
 import firebase from 'firebase/app'
 
 const store = createStore(
