@@ -6,9 +6,7 @@ import Router from './Router';
 
 function App() {
   return (
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    <Router />
   );
 }
 
