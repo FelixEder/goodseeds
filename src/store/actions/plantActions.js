@@ -19,8 +19,6 @@ export const addPlant = (plant) => {
 export const waterPlant = (waterAction) => {
     return (dispatch,getState,{getFirebase,getFirestore}) => {
         const firestore = getFirestore();
-        const timeSinceWatered = waterAction.time;
-        const plantID = waterAction.plantID;
         const state = getState();
         var userDoc = firestore.collection('Users').doc(state.userID);
         var plants = userDoc.get().then((doc) => {
@@ -30,8 +28,10 @@ export const waterPlant = (waterAction) => {
                 console.log('no such document exists');
             }
         })
+        // update plantobject in array and then update the whole array to a new array
         plants = updateWateredTime(plants,waterAction)
-        firestore.collection('Users').doc(state.userID).set({
+        // insert the updated array into the user document.
+        firestore.collection('Users').doc(state.userID).update({
             plants: plants
         }).then(() => {
             dispatch({type: 'WATERED_PLANT', })
