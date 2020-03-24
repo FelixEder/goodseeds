@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from './components/NavBar';
 import StartPage from './components/StartPage';
+import Login from './components/Login';
 import UserProfile from './components/UserProfile';
 import PlantDetails from './components/PlantDetails';
 import SearchResults from './components/SearchResults';
@@ -16,8 +17,11 @@ export default function Router() {
       <BrowserRouter>
         <NavBar />
         <Switch>
-          <Route exact path="/">
+        <Route exact path="/">
             <StartPage />
+          </Route>
+          <Route exact path="/login">
+            <Login />
           </Route>
           <Route path="/userProfile">
             <UserProfile />
