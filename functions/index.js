@@ -1,11 +1,11 @@
-import {API_KEY, ENDPOINT} from 'TrefleConfig';
+const functions = require('firebase-functions');
 
 exports.authTrefleApi = functions.https.onCall((data, context) => {
-  let url = ENDPOINT + 'auth/claim?origin=https://goodseeds.web.app/'
+  let url = 'https://trefle.io/api/auth/claim?token=<your-token>&origin=https://goodseeds.web.app/'
   return fetch(url, {
     "method": "POST",
     "headers": {
-      'X-Mashape-Key': API_KEY
+      'Access-Control-Allow-Origin': '*'
     }
   })
   .then(handleHTTPError)
