@@ -15,7 +15,6 @@ const NavBar = ({createNumber}) => {
       <ul className='nav-bar-list'>
         <li><Link className='nav-bar-list-element-link' to='/'>Start page</Link></li>
         <li><Link className='nav-bar-list-element-link' to='/userProfile'>User profile</Link></li>
-        <li><Link className='nav-bar-list-element-link' to='/plantDetails'>Plant Details</Link></li>
       </ul>
       <button onClick={() => createNumber(5)}>
           click me

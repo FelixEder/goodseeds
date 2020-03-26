@@ -2,11 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
-import { useSelector } from 'react-redux'
-import { useFirestoreConnect } from 'react-redux-firebase'
 
 const PlantDetails = ({reviews}) => {
-  console.log(reviews)
   return(
     <div className='plant-details'>
       <span className='plant-title'>
