@@ -1,18 +1,17 @@
 const functions = require('firebase-functions');
+const fetch = require("node-fetch");
 
 exports.authTrefleApi = functions.https.onCall((data, context) => {
-  let url = 'https://trefle.io/api/auth/claim?token=<your-token>&origin=https://goodseeds.web.app/'
+  let url = 'https://trefle.io/api/auth/claim?token=' + functions.config().trefle.api_key
+          + '&origin=https://goodseeds.web.app/'
   return fetch(url, {
-    "method": "POST",
-    "headers": {
-      'Access-Control-Allow-Origin': '*'
-    }
+    "method": "POST"
   })
   .then(handleHTTPError)
   .then(response => response.json())
   .then((response) => {
     console.log("Successfully requested a JWT token");
-    return {'token': response.token};
+    return response;
   })
   .catch(console.error);
 });
