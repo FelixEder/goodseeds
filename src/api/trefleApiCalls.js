@@ -12,7 +12,7 @@ function handleHTTPError(response) {
 }
 
 function searchPlants(freeText) {
-    return createGetPromise(ENDPOINT + "plants?q=" + freeText)
+    return createGetPromise(ENDPOINT + "plants?q=" + freeText + "&token=" + JSON.parse(localStorage.getItem("token")).token)
         .then(handleHTTPError)
         .then(response => response.json())
         .catch(console.error);
@@ -29,10 +29,9 @@ function createGetPromise(stringRequest) {
     const fetchCall = (stringRequest) => {
       return fetch(stringRequest, {
           "method": "GET",
-          "headers": {
-              'Authorization': 'Bearer ' + localStorage.getItem("token").token,
-              'Access-Control-Allow-Origin': '*'
-          }
+          //"headers": {
+          //    'Authorization': 'Bearer ' + localStorage.getItem("token").token,
+        //  }
       });
     };
     const response = fetchCall(stringRequest);
