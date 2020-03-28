@@ -30,7 +30,8 @@ function createGetPromise(stringRequest) {
       return fetch(stringRequest, {
           "method": "GET",
           "headers": {
-              'Authorization': 'Bearer ' + localStorage.getItem("token").token
+              'Authorization': 'Bearer ' + localStorage.getItem("token").token,
+              'Access-Control-Allow-Origin': '*'
           }
       });
     };
