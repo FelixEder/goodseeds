@@ -1,14 +1,11 @@
 import React from 'react';
 import './App.css';
 import Router from './Router';
-const firebase = require("firebase");
+import getJWTToken from './api/trefleAuth'
 
 function App() {
-  var authTrefleApi = firebase.functions().httpsCallable('authTrefleApi');
-  authTrefleApi().then(function(result) {
-    console.log("Got result from backend");
-    console.log(result);
-  });
+  if (!localStorage.getItem('token'))
+    getJWTToken();
   return (
     <Router />
   );
