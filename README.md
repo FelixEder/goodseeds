@@ -10,7 +10,7 @@ We have made a cloud function in firebase that calls the API we are using (trefl
 
 We have set up hosting on firebase (goodseeds.web.app) and we can easily deploy new builds to it from the CLI.
 
-A number of actions and reducers have been done for plants and reviews, such as addPlant, waterPlant and addReview. they have yet to be integrated into the whole app because some of the functionality have not been done yet. 
+A number of actions and reducers have been done for plants and reviews, such as addPlant, waterPlant and addReview. they have yet to be integrated into the whole app because some of the functionality have not been done yet. They are in production! as such they have not been merged in to the master at the momment. 
 
 We have also created the necessary collections in Firestore that we will use. The structure in those collections may be updated as we discover new problems. 
 
