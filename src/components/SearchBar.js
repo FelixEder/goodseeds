@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import searchPlants from '../api/trefleApiCalls';
+import { searchPlants } from '../api/trefleApiCalls';
 
 const SearchBar = () => {
   let searchInput;
