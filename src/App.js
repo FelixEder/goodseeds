@@ -1,14 +1,12 @@
 import React from 'react';
 import './App.css';
-import store from './redux/store';
-import { Provider } from 'react-redux';
 import Router from './Router';
+import getJWTToken from './api/trefleAuth';
 
 function App() {
+  getJWTToken();
   return (
-    <Provider store={store}>
-      <Router />
-    </Provider>
+    <Router />
   );
 }
 

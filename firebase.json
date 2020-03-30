@@ -1,0 +1,6 @@
+{
+  "hosting": {
+    "site": "goodseeds",
+    "public": "./build"
+  }
+}

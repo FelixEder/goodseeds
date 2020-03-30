@@ -2,6 +2,7 @@
 
 **/serviceAccountKey.json*
 
+*Config.js
 */*Config.js
 # dependencies
 /node_modules
@@ -49,7 +50,7 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-src/config/Config.js
+src/config/*
 
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
@@ -61,3 +62,6 @@ packages/react-devtools-extensions/firefox/*.pem
 packages/react-devtools-extensions/shared/build
 packages/react-devtools-inline/dist
 packages/react-devtools-shell/dist
+
+# firebase
+.firebase/
