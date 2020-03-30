@@ -47,10 +47,10 @@ At the moment we have only done wery basic styling. We will try to use bootstrap
       - numberReducer.js: testfiles
       - rootReducer.js: combines all the reducers.
   - App.css
-  - App.js
+  - App.js: renders the router.
   - index.css
   - index.js: Main file, renders the app to the DOM, makes all the imports, creates the redux-store
-  - Router.js
+  - Router.js: routerfile which handles routing.
 * .firebaserc
 * firebase.json
 * README.md
