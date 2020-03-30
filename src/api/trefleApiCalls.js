@@ -2,21 +2,21 @@ import getJWTToken from './trefleAuth';
 const ENDPOINT = 'https://trefle.io/api/';
 
 function searchPlants(freeText) {
-    return checkToken().then(() => {
-        createGetPromise(ENDPOINT + "plants?q=" + freeText + "&token=" + JSON.parse(localStorage.getItem("token")).token)
-        .then(handleHTTPError)
-        .then(response => response.json())
-        .catch(console.error);
-    });
+    //return checkToken().then(() => {
+    return createGetPromise(ENDPOINT + "plants?q=" + freeText + "&token=" + JSON.parse(localStorage.getItem("token")).token)
+            .then(handleHTTPError)
+            .then(response => response.json())
+            .catch(console.error);
+    //});
 }
 
 function getPlantDetails(id) {
-    return checkToken().then(() => {
-        createGetPromise(ENDPOINT + "plants/" + id + "?token=" + JSON.parse(localStorage.getItem("token")).token)
-        .then(handleHTTPError)
-        .then(response => response.json())
-        .catch(console.error);
-    });
+    //return checkToken().then(() => {
+    return createGetPromise(ENDPOINT + "plants/" + id + "?token=" + JSON.parse(localStorage.getItem("token")).token)
+            .then(handleHTTPError)
+            .then(response => response.json())
+            .catch(console.error);
+    //});
 }
 
 // ------------Utility functions---------------
@@ -31,15 +31,15 @@ function handleHTTPError(response) {
     }
 }
 
-async function checkToken() {
-    let token = localStorage.getItem("token");
-    if (!token) {
-        await getJWTToken();
-        return Promise.resolve();
-    } else {
-        return Promise.resolve();
-    }
-}
+// async function checkToken() {
+//     let token = localStorage.getItem("token");
+//     if (!token) {
+//         await getJWTToken();
+//         return Promise.resolve();
+//     } else {
+//         return Promise.resolve();
+//     }
+// }
 
 function createGetPromise(stringRequest) {
     const fetchCall = (stringRequest) => {
