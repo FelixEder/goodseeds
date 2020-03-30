@@ -26,14 +26,14 @@ At the moment we have only done wery basic styling. We will try to use bootstrap
   - index.html
 * src/
   - components/
-    - NavBar.js
-    - PlantDetails.js
+    - NavBar.js: handles navigation of the website
+    - PlantDetails.js: what will show when you click a plant in searchresults or your profile garden
     - SearchBar.js
-    - SearchResults.js
-    - StartPage.js
-    - UserProfile.js
+    - SearchResults.js: shows the result of the search
+    - StartPage.js: startpage with relevant info like, popular plants, recent reviews and reminders to water plants
+    - UserProfile.js: profilepage with userinformation and you garden
   - config/
-    - FirebaseConfig.js
+    - FirebaseConfig.js:
   - store/
     - actions/
       - arrayActions.js
