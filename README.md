@@ -36,12 +36,16 @@ At the moment we have only done wery basic styling. We will try to use bootstrap
     - FirebaseConfig.js:
   - store/
     - actions/
-      - arrayActions.js
-      - numberActions.js
+      - plantActions.js: redux actions regarding plants.
+      - reviewActions.js: redux actions regarding reviews.
+      - arrayActions.js: testfiles
+      - numberActions.js:Testfiles
     - reducers/
-      - arrayReducer.js
-      - numberReducer.js
-      - rootReducer.js
+      - plantReducer.js: reducer for plantactions.
+      - reviewReducer.js reducer for reviewActions.
+      - arrayReducer.js: testfiles
+      - numberReducer.js: testfiles
+      - rootReducer.js: combines all the reducers.
   - App.css
   - App.js
   - index.css
