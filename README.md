@@ -19,3 +19,34 @@ At the moment we have only done wery basic styling. We will try to use bootstrap
 
 
 ### Project file structure
+
+* functions/
+  - index.js
+* public/
+  - index.html
+* src/
+  - components/
+    - NavBar.js
+    - PlantDetails.js
+    - SearchBar.js
+    - SearchResults.js
+    - StartPage.js
+    - UserProfile.js
+  - config/
+    - FirebaseConfig.js
+  - store/
+    - actions/
+      - arrayActions.js
+      - numberActions.js
+    - reducers/
+      - arrayReducer.js
+      - numberReducer.js
+      - rootReducer.js
+  - App.css
+  - App.js
+  - index.css
+  - index.js
+  - Router.js
+* .firebaserc
+* firebase.json
+* README.md
