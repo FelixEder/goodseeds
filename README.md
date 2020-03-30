@@ -9,7 +9,7 @@ A number of actions and reducers have been done for plants and reviews, such as 
 We have also created the necessary collections in Firestore that we will use. The structure in those collections may be updated as we discover new problems.
 ### What we have yet to do
 
-At the moment we have only done wery basic styling. We will try to use bootstrap in order to create the styling for the app.
+At the moment we have only done very basic styling. We will try to use bootstrap in order to create the styling for the app.
 ### Project file structure
 
 ##### Frontend
