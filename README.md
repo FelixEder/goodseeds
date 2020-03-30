@@ -14,6 +14,7 @@ A number of actions and reducers have been done for plants and reviews, such as 
 We have also created the necessary collections in Firestore that we will use. The structure in those collections may be updated as we discover new problems.
 
 ### What we have yet to do
+What needs to be done before the final submission is that we need to complete all the functionallity for the components. We need to figure out what kind of state we want to store in the app while its running.
 
 At the moment we have only done wery basic styling. We will try to use bootstrap in order to create the styling for the app.
 
