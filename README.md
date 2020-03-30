@@ -49,7 +49,7 @@ At the moment we have only done wery basic styling. We will try to use bootstrap
   - App.css
   - App.js
   - index.css
-  - index.js
+  - index.js: Main file, renders the app to the DOM, makes all the imports, creates the redux-store
   - Router.js
 * .firebaserc
 * firebase.json
