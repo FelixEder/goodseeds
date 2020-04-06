@@ -1,5 +1,5 @@
-
-const ReviewReducer = (state,action) => {
+// reducer connected to addReview action.
+const reviewReducer = (state = [],action) => {
     switch (action.type){
         case 'ADD_REVIEW':
             // add review action update state?
