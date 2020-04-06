@@ -3,7 +3,6 @@ export const addReview = (reviewData) => {
     return (dispatch,getState,{getFirebase, getFirestore}) => {
         // make async call to database
         const firestore = getFirestore();
-        const state = getState();
         firestore.collection('Review').add({
             plantID: reviewData.plantID,
             username: reviewData.username,
