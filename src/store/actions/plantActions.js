@@ -14,7 +14,7 @@ export const addPlant = (action) => {
         })
     }
 }
-
+// this action is connected to the plantReducer.
 export const waterPlant = (waterAction) => {
     return (dispatch,getState,{getFirebase,getFirestore}) => {
         const firestore = getFirestore();
