@@ -1,14 +1,13 @@
 
-export const addPlant = (plant) => {
+export const addPlant = (action) => {
     return (dispatch,getState,{getFirebase, getFirestore}) => {
         // make async call to database
         // unsure what state is in this case
         const firestore = getFirestore();
-        const state = getState();
-        firestore.collection('Users').doc(state.userID).update({
-            Plants: firestore.FieldValue.arrayUnion(plant)
+        firestore.collection('Users').doc(action.userID).update({
+            Plants: firestore.FieldValue.arrayUnion(action.plant)
         }).then(() => {
-            dispatch({type: 'ADD_PLANT', plant});
+            dispatch({type: 'ADD_PLANT', plant: action.plant});
         }).catch((err) => {
             console.log('error: ' + err);
             dispatch({type: 'ADD_PLANT_ERROR', err});
@@ -19,8 +18,7 @@ export const addPlant = (plant) => {
 export const waterPlant = (waterAction) => {
     return (dispatch,getState,{getFirebase,getFirestore}) => {
         const firestore = getFirestore();
-        const state = getState();
-        var userDoc = firestore.collection('Users').doc(state.userID);
+        var userDoc = firestore.collection('Users').doc(waterAction.userID);
         var plants = userDoc.get().then((doc) => {
             if(doc.exists) {
                 return doc.Plants;
@@ -31,7 +29,7 @@ export const waterPlant = (waterAction) => {
         // update plantobject in array and then update the whole array to a new array
         plants = updateWateredTime(plants,waterAction)
         // insert the updated array into the user document.
-        firestore.collection('Users').doc(state.userID).update({
+        firestore.collection('Users').doc(waterAction.userID).update({
             plants: plants
         }).then(() => {
             dispatch({type: 'WATERED_PLANT', })
