@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     number: numberReducer,
     firestore: firestoreReducer,
     firebase: firebaseReducer,
-    auth: authReducer
+    auth: authReducer,
     searchResults: searchResultsReducer
 })
 
