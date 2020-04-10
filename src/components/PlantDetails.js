@@ -4,7 +4,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import addReview from '../store/actions/reviewActions'
 
-const PlantDetails = ({reviews}) => {
+const PlantDetails = ({props,reviews}) => {
   return(
     <div className='plant-details'>
       <span className='plant-title'>
@@ -12,6 +12,7 @@ const PlantDetails = ({reviews}) => {
       </span>
     
       {/* Reviews */}
+      <AddReviewComponent props={props}/>
       { reviews ? 
               <div className='plant-reviews'>
               {reviews.map(review => (
