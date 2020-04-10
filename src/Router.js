@@ -22,9 +22,7 @@ export default function Router() {
           <Route path="/userProfile">
             <UserProfile />
           </Route>
-          <Route path="/plantDetails">
-            <PlantDetails />
-          </Route>
+          <Route path="/plantDetails/:id" component={PlantDetails} />
           <Route path="/SearchResults">
             <SearchResults />
           </Route>
