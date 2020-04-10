@@ -10,7 +10,7 @@ const PlantDetails = ({reviews}) => {
       <span className='plant-title'>
         Funny plant
       </span>
-
+    
       {/* Reviews */}
       { reviews ? 
               <div className='plant-reviews'>
@@ -36,7 +36,10 @@ const PlantDetails = ({reviews}) => {
   );
 }
 
-const AddReviewComponent = () => {
+const AddReviewComponent = (props) => {
+  // how i think it will work.
+  const {auth} = props;
+  const username = auth.username; 
   return (
     <div>
       <form id='addReviewForm'>
@@ -48,14 +51,16 @@ const AddReviewComponent = () => {
         <input type='submit' value='Add review' onClick={(event) => {
           // send the complete review data to the action
           let reviewForm = document.getElementById('addReviewForm');
-          const formData = new  formData(reviewForm);
-          let reviewdata = {
-            plantID: , 
-            username: ,
+          const formData = new FormData(reviewForm);
+          const reviewdata = {
+            plantID: props.plantID, 
+            username: username,
             rating: formData.rating,
             reviewText: formData.reviewText,
             timestamp: event.timeStamp,
           } 
+          // dispatch action
+          addReview(reviewdata);
         }}/>
       </form>
     </div>
@@ -76,5 +81,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   firestoreConnect(() => [{collection: 'Review'}]),
-  connect(mapStateToProps, null)
+  connect(mapStateToProps, mapDispatchToProps)
 )(PlantDetails)
