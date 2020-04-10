@@ -1,10 +1,11 @@
 import React from 'react';
 import NavBar from './components/NavBar';
 import StartPage from './components/StartPage';
-import Login from './components/Login';
+import SignIn from './components/SignIn';
 import UserProfile from './components/UserProfile';
 import PlantDetails from './components/PlantDetails';
 import SearchResults from './components/SearchResults';
+import SignUp from './components/SignUp';
 import {
   BrowserRouter,
   Switch,
@@ -21,7 +22,10 @@ export default function Router() {
             <StartPage />
           </Route>
           <Route exact path="/login">
-            <Login />
+            <SignIn />
+          </Route>
+          <Route exact path="/signup">
+            <SignUp />
           </Route>
           <Route path="/userProfile">
             <UserProfile />
