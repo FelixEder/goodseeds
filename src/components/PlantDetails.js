@@ -4,7 +4,7 @@ import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import addReview from '../store/actions/reviewActions'
 
-const PlantDetails = ({props,reviews}) => {
+const PlantDetails = ({auth,reviews, users}) => {
   return(
     <div className='plant-details'>
       <span className='plant-title'>
@@ -12,7 +12,10 @@ const PlantDetails = ({props,reviews}) => {
       </span>
     
       {/* Reviews */}
-      <AddReviewComponent props={props}/>
+      {auth.uid?
+        <AddReviewComponent uid={auth.uid} users={users}/>
+        : null
+      }
       { reviews ? 
               <div className='plant-reviews'>
               {reviews.map(review => (
@@ -32,15 +35,15 @@ const PlantDetails = ({props,reviews}) => {
               ))}
             </div>
             : null}
-
     </div>
   );
 }
 
-const AddReviewComponent = (props) => {
-  // how i think it will work.
-  const {auth} = props;
-  const username = auth.username; 
+const AddReviewComponent = ({uid,users}) => {
+  // take plantID from route
+  const plantID = window.location.hash.split('/')[3];
+  const username = users[uid].name;
+  
   return (
     <div>
       <form id='addReviewForm'>
@@ -54,7 +57,7 @@ const AddReviewComponent = (props) => {
           let reviewForm = document.getElementById('addReviewForm');
           const formData = new FormData(reviewForm);
           const reviewdata = {
-            plantID: props.plantID, 
+            plantID: plantID, 
             username: username,
             rating: formData.rating,
             reviewText: formData.reviewText,
@@ -76,11 +79,13 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    reviews: state.firestore.ordered.Review
+    reviews: state.firestore.ordered.Review,
+    auth: state.firebase.auth,
+    users: state.firestore.ordered.Users
   }
 }
 
 export default compose(
-  firestoreConnect(() => [{collection: 'Review'}]),
+  firestoreConnect(() => [{collection: 'Review'}, {collection: 'Users'}]),
   connect(mapStateToProps, mapDispatchToProps)
 )(PlantDetails)

@@ -1,5 +1,5 @@
 export const createNumber = (number) => {
-    return (dispatch, getState, { getFirebase, getFirestore }) => {
+    return (dispatch, getState, {getFirebase, getFirestore }) => {
         console.log("dispatching... " + number)
 
         // make async call to db
