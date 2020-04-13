@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar'
 
 
-const NavBar = ({createNumber}) => {
+const NavBar = () => {
   return(
     <div className='nav-bar'>
       {/* Remove comment below on merge */}
