@@ -36,20 +36,22 @@ export const signUp = (newUser) => {
         firebase.auth().createUserWithEmailAndPassword(
             newUser.email,
             newUser.password
-        
+        )
+
         // Add user to firestore collection
-        ).then((response) => {
+        .then((response) => {
             return firestore.collection('Users').doc(response.user.uid).set({
                 name: newUser.name,
                 email: newUser.email,
                 plants: [],
                 reviews: []
             })
-
+        })
         // Dispatch to reducer
-        }).then(() => {
+        .then(() => {
             dispatch({ type: 'SIGNUP_SUCCESS' })
-        }).catch(err => {
+        })
+        .catch(err => {
             dispatch( {type: 'SIGNUP_ERROR', err})
         })
     }
