@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { searchPlants } from '../api/trefleApiCalls';
+import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const SearchBar = ({updateResults}) => {
   let searchInput;
@@ -9,7 +9,17 @@ const SearchBar = ({updateResults}) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    searchPlants(searchInput.value).then(results => { updateResults(results) });
+    searchPlants(searchInput.value).then(results => {
+
+      const getImages = results.map(async (plant) => {
+        await getPlantDetails(plant.id).then(details => {
+          plant.imageURL = details.images.length > 0 ? details.images[0].url : null;
+        })
+      });
+
+      Promise.all(getImages)
+      .then(() => { updateResults(results) })
+    });
     history.push("/SearchResults");
   }
 
