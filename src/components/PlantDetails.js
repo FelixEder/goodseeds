@@ -41,7 +41,7 @@ const PlantDetails = ({auth,reviews, users}) => {
 
 const AddReviewComponent = ({uid,users}) => {
   // take plantID from route
-  const plantID = window.location.hash.split('/')[3];
+  let { id } = useParams();
   const username = users[uid].name;
   
   return (
