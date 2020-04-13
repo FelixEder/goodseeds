@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
+import { useParams } from 'react-router-dom'
 import addReview from '../store/actions/reviewActions'
 
 const PlantDetails = ({auth,reviews, users}) => {
@@ -57,7 +58,7 @@ const AddReviewComponent = ({uid,users}) => {
           let reviewForm = document.getElementById('addReviewForm');
           const formData = new FormData(reviewForm);
           const reviewdata = {
-            plantID: plantID, 
+            plantID: id, 
             username: username,
             rating: formData.rating,
             reviewText: formData.reviewText,
