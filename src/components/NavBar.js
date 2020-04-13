@@ -5,7 +5,6 @@ import { signOut } from '../store/actions/authActions'
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar'
 
-
 const NavBar = ({signOut, isEmpty}) => {
   return(
     <div className='nav-bar'>
@@ -44,5 +43,6 @@ const mapStateToProps = (state) => {
     isEmpty: state.firebase.auth.isEmpty
   }
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
