@@ -41,7 +41,9 @@ export const signUp = (newUser) => {
         ).then((response) => {
             return firestore.collection('Users').doc(response.user.uid).set({
                 name: newUser.name,
-                email: newUser.email
+                email: newUser.email,
+                plants: [],
+                reviews: []
             })
 
         // Dispatch to reducer

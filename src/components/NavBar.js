@@ -14,11 +14,13 @@ const NavBar = ({createNumber, signOut, isEmpty}) => {
       <SearchBar className='search-bar'/>
       <ul className='nav-bar-list'>
         <li><Link className='nav-bar-list-element-link' to='/'>Start page</Link></li>
-        <li><Link className='nav-bar-list-element-link' to='/userProfile'>User profile</Link></li>
 
         {
           !isEmpty ?
-            <li><Link className='nav-bar-list-element-link' onClick={signOut} to='/'>Sign Out</Link></li>
+            <span>
+              <li><Link className='nav-bar-list-element-link' to='/userProfile'>User profile</Link></li>
+              <li><Link className='nav-bar-list-element-link' onClick={signOut} to='/'>Sign Out</Link></li>
+            </span>
           : 
           <span>
             <li><Link className='nav-bar-list-element-link' to='/login'>Sign In</Link></li>
