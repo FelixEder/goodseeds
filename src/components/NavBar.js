@@ -1,13 +1,12 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { createNumber } from '../store/actions/numberActions'
 import { signOut } from '../store/actions/authActions'
 import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar'
 
 
-const NavBar = ({createNumber, signOut, isEmpty}) => {
+const NavBar = ({signOut, isEmpty}) => {
   return(
     <div className='nav-bar'>
 
@@ -30,20 +29,14 @@ const NavBar = ({createNumber, signOut, isEmpty}) => {
 
       </ul>
 
-      <button onClick={() => createNumber(5)}>
-          click me
-      </button>
     </div>
   );
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createNumber: (number) => dispatch(createNumber(number)),
         signOut: () => dispatch(signOut())
     }
-
-
 }
 
 const mapStateToProps = (state) => {
