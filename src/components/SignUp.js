@@ -1,15 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { signUp } from '../store/actions/authActions';
+import { useHistory } from 'react-router-dom';
 
 const SignUp = ({signUp, authError}) => {
     let email;
     let password;
     let name;
+    const history = useHistory();
     
     function handleSubmit(event) {
         event.preventDefault();
+
+        // Dispatch signup action
         signUp({ email: email.value, password: password.value, name: name.value })
+
+        // Navigate to user profile
+        history.push("/userProfile");
 
     }
     
