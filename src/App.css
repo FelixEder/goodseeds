@@ -39,3 +39,12 @@
   flex-direction: row;
   background-color: #5aab61;
 }
+
+.image-span {
+    text-align: center;
+    display:inline-block;
+    vertical-align: top;
+    padding: 10px;
+    width: 150px;
+    overflow: hidden;
+}
