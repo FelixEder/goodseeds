@@ -16,7 +16,7 @@ const SignUp = ({signUp, authError}) => {
         signUp({ email: email.value, password: password.value, name: name.value })
 
         // Navigate to user profile
-        history.push("/userProfile");
+        // history.push("/userProfile");
 
     }
     
