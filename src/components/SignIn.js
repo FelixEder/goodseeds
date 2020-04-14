@@ -30,7 +30,7 @@ const SignIn = ({ signIn, authError }) => {
                 </div>
                 <button type='submit'>Sign in</button>
 
-                {/* If we have an error, dispal error message */}
+                {/* If we have an error, display error message */}
                 <div className='login-message'>
                     { authError ? <p> { authError } </p> : null}
                 </div>
