@@ -1,17 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import { useParams } from 'react-router-dom'
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { useParams } from 'react-router-dom';
+import { getPlantDetails } from '../api/trefleApiCalls';
 
 const PlantDetails = ({reviews}) => {
   let { id } = useParams();
   console.log(id);
 
+  const [plantDetails, setPlantDetails] = useState(null);
+
+  getPlantDetails(id).then(details => {
+    setPlantDetails(details);
+  })
+
   return(
     <div className='plant-details'>
       <span className='plant-title'>
-        Funny plant
+        {plantDetails ?
+        plantDetails.scientific_name : null}
         <h1>{id}</h1>
       </span>
 
