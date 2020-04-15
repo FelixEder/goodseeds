@@ -27,6 +27,11 @@ const createPlantDisplay = (plant) => {
                 {plant.scientific_name}
               </span>)
             }
+            <div>
+              <button>
+              water
+              </button>
+            </div>
           </span>)
         }
 
