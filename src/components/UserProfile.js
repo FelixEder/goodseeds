@@ -7,6 +7,16 @@ import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
 
 const UserProfile = ({uid, user}) => {
+  function treatAsUTC(date) {
+    var result = new Date(date);
+    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+    return result;
+  }
+
+  function daysBetween(startDate, endDate) {
+    var millisecondsPerDay = 24 * 60 * 60 * 1000;
+    return Math.floor((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay);
+  }
 
   const history = useHistory();
 
@@ -33,7 +43,10 @@ const UserProfile = ({uid, user}) => {
           </span>)
         }
         <div>
-          Last watered {userPlant.daysSinceWatered} days ago 
+          Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago
+        </div>
+        <div>
+          Needs to be watered every <input placeholder={userPlant.waterPeriod} type='number' /> day
         </div>
         <div>
           <button>water</button>
