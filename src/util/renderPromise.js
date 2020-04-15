@@ -10,7 +10,7 @@ function RenderPromise({promise, renderData}) {
            	 	.catch(err => setData({error:err}))
    }, [promise]);
 
-   return data === null && h("h1", {}, "Loading...")
+   return data === null
            || data !== null && !data.error && h(renderData, {data})
            || data !== null && data.error && h("div", {}, data.error.toString());
 };

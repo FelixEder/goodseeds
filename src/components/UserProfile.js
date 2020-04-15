@@ -5,38 +5,41 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
-const h = React.createElement;
-
-// Takes in plantID, fetches information about plant and returns image and name
-const createPlantDisplay = (plant) => {
-          return (<span className='image-span'>
-            <img src = {plant.images[0].url} height='100' />
-            {plant.common_name ?
-              (<span>
-                <span>
-                  <h4>
-                    {plant.common_name}
-                  </h4>
-                </span>
-                <span>
-                  {plant.scientific_name}
-                </span>
-              </span>)
-            :
-              (<span>
-                {plant.scientific_name}
-              </span>)
-            }
-            <div>
-              <button>
-              water
-              </button>
-            </div>
-          </span>)
-        }
 
 const UserProfile = ({uid, user}) => {
+
   const history = useHistory();
+
+  // Takes in plantID, fetches information about plant and returns image and name
+  const createPlantDisplay = (genericPlant, userPlant) => {
+    return (<span className='image-span'>
+    <img src = {genericPlant.images[0].url} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
+    {genericPlant.common_name ?
+      (<span>
+        <span>
+          <br/>
+          <b>
+            {genericPlant.common_name}
+          </b>
+        </span>
+        <span>
+          <br/>
+          <i>{genericPlant.scientific_name}</i>
+        </span>
+      </span>)
+        :
+        (<span>
+          {genericPlant.scientific_name}
+          </span>)
+        }
+        <div>
+          Last watered {userPlant.daysSinceWatered} days ago 
+        </div>
+        <div>
+          <button>water</button>
+        </div>
+        </span>)
+  }
 
   // If no user is logged in, return to start page
   if (!uid) {
@@ -57,12 +60,12 @@ const UserProfile = ({uid, user}) => {
                 <span>
                   {
                     // Call RenderPromise, and then render the data
-                    <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => (<span>{createPlantDisplay(data)}</span>)}/>
+                    <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => (<span>{createPlantDisplay(data, JSON.parse(plant))}</span>)}/>
                   }
                 </span>)
           })}
           </div>
-        ) : null
+        ) : (<div>Loading...</div>)
       }
     </div>
   )
