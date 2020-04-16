@@ -1,35 +1,32 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from 'redux';
 import {useParams} from 'react-router-dom';
 import {getPlantDetails} from '../api/trefleApiCalls';
+import RenderPromise from '../util/RenderPromise';
 
 const PlantDetails = ({reviews}) => {
   let {id} = useParams();
   console.log(id);
 
-  const [plantDetails, setPlantDetails] = useState(null);
+  const createPlantDisplay = plantDetails => {
+    return (
+      <div className='plant-details'>
+          <span className='plant-image'>
+            <img src={plantDetails.images[0].url} />
+            <div>
+              {plantDetails.scientific_name}
+            </div>
+          </span>
+      </div>
+    )
+  }
 
-  getPlantDetails(id).then(details => {
-    setPlantDetails(details);
-  })
-
-  return (<div className='plant-details'>
-    <span className='plant-image'>
-      <img src={plantDetails
-          ? plantDetails.images[0]
-          : null} height='500'/> {
-        plantDetails
-          ? plantDetails.scientific_name
-          : null
-      }
-    </span>
-
-    {/* Reviews */}
-    {
-      reviews
-        ? <div className='plant-reviews'>
+  return (<div>
+    <RenderPromise promise={getPlantDetails(id)} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
+    {reviews
+        ? (<div className='plant-reviews'>
             {
               reviews.map(review => (<div className='plant-review'>
                 <span className='plant-review-rating'>
@@ -45,11 +42,11 @@ const PlantDetails = ({reviews}) => {
                 </span>
               </div>))
             }
-          </div>
+          </div>)
         : null
     }
-
-  </div>);
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {

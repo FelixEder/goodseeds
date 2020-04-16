@@ -48,3 +48,11 @@
     width: 150px;
     overflow: hidden;
 }
+
+.plant-image {
+  text-align: center;
+  display:inline-block;
+  vertical-align: top;
+  padding: 10px;
+  overflow: hidden;
+}
