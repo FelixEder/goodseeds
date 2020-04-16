@@ -8,17 +8,36 @@ import RenderPromise from '../util/RenderPromise';
 
 const PlantDetails = ({reviews}) => {
   let {id} = useParams();
-  console.log(id);
 
   const createPlantDisplay = plantDetails => {
     return (
       <div className='plant-details'>
           <span className='plant-image'>
-            <img src={plantDetails.images[0].url} />
+            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : null}/>
             <div>
               {plantDetails.scientific_name}
             </div>
           </span>
+          <div>
+            <div>
+              <b>Common name: </b> {plantDetails.common_name}
+            </div>
+            <div>
+              <b>Family common name: </b> {plantDetails.family_common_name}
+            </div>
+            <div>
+              <b>Scientific name: </b> {plantDetails.scientific_name}
+            </div>
+            <div>
+              <b>Duration: </b>  {plantDetails.duration}
+            </div>
+            <div>
+              <b>Fire resistance: </b>  {plantDetails.main_species.specifications.fire_resistance}
+            </div>
+            <div>
+              <b>Native status: </b>  {plantDetails.native_status}
+            </div>
+        </div>
       </div>
     )
   }
