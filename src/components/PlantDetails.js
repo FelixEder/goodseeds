@@ -6,10 +6,12 @@ import { useParams } from 'react-router-dom'
 import { addReview } from '../store/actions/reviewActions'
 
 const PlantDetails = ({auth,reviews, users}) => {
+  let {id} = useParams();
   return(
     <div className='plant-details'>
       <span className='plant-title'>
         Funny plant
+        <h1>{id}</h1>
       </span>
     
       {/* Reviews */}
@@ -24,11 +26,11 @@ const PlantDetails = ({auth,reviews, users}) => {
                   <span className='plant-review-rating'>
                     Rating: {review.rating}
                   </span>
-      
+
                   <span className='plant-review-text'>
                     Review text: {review.reviewText}
                   </span>
-      
+
                   <span className='plant-review-user'>
                     {review.user}
                   </span>
