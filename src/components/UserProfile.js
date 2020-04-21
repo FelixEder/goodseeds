@@ -5,8 +5,10 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
+import { waterPlant } from '../store/actions/plantActions';
 
-const UserProfile = ({uid, user}) => {
+const UserProfile = ({uid, user, waterPlant}) => {
+  //
   function treatAsUTC(date) {
     var result = new Date(date);
     result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
@@ -49,7 +51,7 @@ const UserProfile = ({uid, user}) => {
           Needs to be watered every <input placeholder={userPlant.waterPeriod} type='number' /> day
         </div>
         <div>
-          <button>water</button>
+          <button onClick={(() => waterPlant({userID: uid, plantID: userPlant.id}))}>water</button>
         </div>
         </span>)
   }
@@ -92,11 +94,16 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+      waterPlant: waterAction => dispatch(waterPlant(waterAction))
+  }
+}
+
 export default compose (
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => {
     if (!props.uid) return [];
-
     return [{ collection: 'Users', doc: props.uid }];
   }),
 )(UserProfile);
