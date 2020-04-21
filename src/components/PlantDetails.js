@@ -57,15 +57,17 @@ const AddReviewComponent = ({uid,users}) => {
           // send the complete review data to the action
           let reviewForm = document.getElementById('addReviewForm');
           const formData = new FormData(reviewForm);
-          const reviewdata = {
-            plantID: id, 
-            username: username,
-            rating: formData.rating,
-            reviewText: formData.reviewText,
-            timestamp: event.timeStamp,
-          } 
-          // dispatch action
-          addReview(reviewdata);
+          if(formData.reviewText !== null && formData.rating !== null){
+            const reviewData = {
+              plantID: id, 
+              username: username,
+              rating: formData.rating,
+              reviewText: formData.reviewText,
+              timestamp: event.timeStamp,
+            } 
+            // dispatch action with reviewdata
+            addReview(reviewData);
+          }
         }}/>
       </form>
     </div>
@@ -79,6 +81,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
     reviews: state.firestore.ordered.Review,
     auth: state.firebase.auth,
