@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     firebase: firebaseReducer,
     // array: arrayReducer
     plant: plantReducer,
-    review: reviewReducer
+    review: reviewReducer,
     searchResults: searchResultsReducer
 
 })
