@@ -6,7 +6,7 @@ import {useParams} from 'react-router-dom';
 import {getPlantDetails} from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise';
 
-const PlantDetails = ({reviews}) => {
+const PlantDetails = ({reviews, addPlant}) => {
   let {id} = useParams();
 
   const createPlantDisplay = plantDetails => {
@@ -18,7 +18,7 @@ const PlantDetails = ({reviews}) => {
               {plantDetails.scientific_name}
             </div>
             <div>
-              <button onClick={() => console.log("Add to garden")}>Add to my garden</button>
+              <button onClick={() => addPlant(plantDetails)}>Add to my garden</button>
             </div>
           </span>
           <div>
@@ -71,6 +71,8 @@ const PlantDetails = ({reviews}) => {
   );
 }
 
+const addPlant = (plant) => ({type: "ADD_PLANT", results: plant});
+
 const mapStateToProps = (state) => {
   return {reviews: state.firestore.ordered.Review}
 }
@@ -79,4 +81,9 @@ export default compose(firestoreConnect(() => [
   {
     collection: 'Review'
   }
-]), connect(mapStateToProps, null))(PlantDetails)
+]), connect(mapStateToProps,
+    (dispatch) => ({
+      addPlant: (plant) => dispatch(addPlant(plant))
+    })
+  )
+)(PlantDetails)
