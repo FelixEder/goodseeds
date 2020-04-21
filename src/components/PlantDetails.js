@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase'
 import { compose } from 'redux'
 import { useParams } from 'react-router-dom'
-import addReview from '../store/actions/reviewActions'
+import { addReview } from '../store/actions/reviewActions'
 
 const PlantDetails = ({auth,reviews, users}) => {
   return(
