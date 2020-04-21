@@ -17,6 +17,9 @@ const PlantDetails = ({reviews}) => {
             <div>
               {plantDetails.scientific_name}
             </div>
+            <div>
+              <button onClick={() => console.log("Add to garden")}>Add to my garden</button>
+            </div>
           </span>
           <div>
             <div>
