@@ -1,5 +1,6 @@
 // Action connected to reviewReducer.
 export const addReview = (reviewData) => {
+    console.log("dispatching addReviewAction");
     return (dispatch,getState,{getFirebase, getFirestore}) => {
         // make async call to database
         const firestore = getFirestore();

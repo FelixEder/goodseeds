@@ -15,9 +15,9 @@ const PlantDetails = ({auth,reviews, users}) => {
       </span>
     
       {/* Reviews */}
-      {auth.uid?
+      
         <AddReviewComponent uid={auth.uid} users={users}/>
-        : null
+ 
       }
       { reviews ? 
               <div className='plant-reviews'>
@@ -45,8 +45,10 @@ const PlantDetails = ({auth,reviews, users}) => {
 const AddReviewComponent = ({uid,users}) => {
   // take plantID from route
   let { id } = useParams();
-  const username = users[uid].name;
-  
+  //const username = users[uid].name;
+  const username = "test";
+  let rating;
+  let reviewText;
   return (
     <div>
       <form id='addReviewForm'>
@@ -55,23 +57,24 @@ const AddReviewComponent = ({uid,users}) => {
         <textarea form='addReviewForm' id='reviewText'></textarea><br/>
         <label for='rating'> rate the plant (between 1 and 5)</label>
         <input id='rating' type='number' name='rating' min='1' max='5'></input>
+        </form>
         <input type='submit' value='Add review' onClick={(event) => {
           // send the complete review data to the action
-          let reviewForm = document.getElementById('addReviewForm');
-          const formData = new FormData(reviewForm);
-          if(formData.reviewText !== null && formData.rating !== null){
+          rating = document.getElementById('rating').value;
+          reviewText =document.getElementById('reviewText').value;
+          if(reviewText !== null && rating !== null){
             const reviewData = {
               plantID: id, 
               username: username,
-              rating: formData.rating,
-              reviewText: formData.reviewText,
+              rating: rating,
+              reviewText: reviewText,
               timestamp: event.timeStamp,
             } 
             // dispatch action with reviewdata
             addReview(reviewData);
           }
         }}/>
-      </form>
+      
     </div>
   )
 }
