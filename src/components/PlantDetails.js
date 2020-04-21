@@ -13,7 +13,7 @@ const PlantDetails = ({reviews}) => {
     return (
       <div className='plant-details'>
           <span className='plant-image'>
-            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : null}/>
+            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : null} width='500px' />
             <div>
               {plantDetails.scientific_name}
             </div>
