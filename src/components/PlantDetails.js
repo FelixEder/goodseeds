@@ -19,7 +19,9 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
               {plantDetails.scientific_name}
             </div>
             <div>
-              <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})}>Add to my garden</button>
+              {!uid
+                ? "Sign up or Log in to add this plant to your garden"
+                : <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})}>Add to my garden</button>}
             </div>
           </span>
           <div>
