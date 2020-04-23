@@ -5,10 +5,11 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
-import { waterPlant } from '../store/actions/plantActions';
+import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
 
-const UserProfile = ({uid, user, waterPlant}) => {
-  //
+const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
+  let waterPeriodInput;
+  
   function treatAsUTC(date) {
     var result = new Date(date);
     result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
@@ -24,7 +25,11 @@ const UserProfile = ({uid, user, waterPlant}) => {
 
   // Takes in plantID, fetches information about plant and returns image and name
   const createPlantDisplay = (genericPlant, userPlant) => {
-    return (<span className='image-span'>
+    let border = {};
+    if (daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) {
+      border = {border: '3px red solid'};
+    }
+    return (<span className='image-span' style={border}>
     <img src = {genericPlant.images[0].url} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
     {genericPlant.common_name ?
       (<span>
@@ -48,10 +53,17 @@ const UserProfile = ({uid, user, waterPlant}) => {
           Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago
         </div>
         <div>
-          Needs to be watered every <input placeholder={userPlant.waterPeriod} type='number' /> day
+          Needs to be watered every {userPlant.waterPeriod} days
         </div>
         <div>
           <button onClick={(() => waterPlant({userID: uid, plantID: userPlant.id}))}>water</button>
+        </div>
+        <div>
+          Change how often this plant needs to be watered:
+          <form onSubmit={event => { event.preventDefault(); updateWaterPeriod({userID: uid, plantID: userPlant.id, waterPeriod: waterPeriodInput.value}) }}>
+            <input placeholder={userPlant.waterPeriod} type='number' ref={node => waterPeriodInput = node} />
+            <button>Update</button>
+          </form>
         </div>
         </span>)
   }
@@ -96,11 +108,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      waterPlant: waterAction => dispatch(waterPlant(waterAction))
+      waterPlant: waterAction => dispatch(waterPlant(waterAction)),
+      updateWaterPeriod: action => dispatch(updateWaterPeriod(action))
   }
 }
 
-export default compose (
+export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => {
     if (!props.uid) return [];

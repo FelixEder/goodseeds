@@ -22,3 +22,26 @@ export const waterPlant = (waterAction) => {
               });
     }
 }
+
+export const updateWaterPeriod = (action) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        const userDoc = firestore.collection('Users').doc(action.userID);
+        userDoc.get()
+              .then(doc => {
+                userDoc.update({
+                  plants: doc.data().plants.map(plant => {
+                    return JSON.parse(plant).id === action.plantID
+                    ? JSON.stringify({id: JSON.parse(plant).id, lastWatered: JSON.parse(plant).lastWatered, waterPeriod: action.waterPeriod})
+                    : plant
+                  })
+                });
+              })
+              .then(() => {
+                dispatch({type: 'UPDATE_WATER_PERIOD'});
+              })
+              .catch(err => {
+                dispatch({type: 'UPDATE_WATER_PERIOD_ERROR', err});
+              });
+    }
+}
