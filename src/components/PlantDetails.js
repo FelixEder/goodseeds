@@ -5,8 +5,9 @@ import {compose} from 'redux';
 import {useParams} from 'react-router-dom';
 import {getPlantDetails} from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise';
+import { addPlant } from '../store/actions/plantActions';
 
-const PlantDetails = ({reviews, addPlant}) => {
+const PlantDetails = ({uid, user, reviews, addPlant}) => {
   let {id} = useParams();
 
   const createPlantDisplay = plantDetails => {
@@ -18,7 +19,7 @@ const PlantDetails = ({reviews, addPlant}) => {
               {plantDetails.scientific_name}
             </div>
             <div>
-              <button onClick={() => addPlant(plantDetails)}>Add to my garden</button>
+              <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})}>Add to my garden</button>
             </div>
           </span>
           <div>
@@ -71,19 +72,25 @@ const PlantDetails = ({reviews, addPlant}) => {
   );
 }
 
-const addPlant = (plant) => ({type: "ADD_PLANT", results: plant});
-
 const mapStateToProps = (state) => {
-  return {reviews: state.firestore.ordered.Review}
+  return {
+    uid: state.firebase.auth.uid,
+    user: state.firestore.ordered.Users,
+    reviews: state.firestore.ordered.Review
+  }
 }
 
-export default compose(firestoreConnect(() => [
-  {
-    collection: 'Review'
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addPlant: (plantAction) => dispatch(addPlant(plantAction))
   }
-]), connect(mapStateToProps,
-    (dispatch) => ({
-      addPlant: (plant) => dispatch(addPlant(plant))
-    })
-  )
+}
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect(props => {
+    return !props.uid
+    ? [{ collection: 'Review' }]
+    : [{ collection: 'Review' }, { collection: 'Users', doc: props.uid }]
+  }),
 )(PlantDetails)
