@@ -21,7 +21,7 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
             <div>
               {!uid
                 ? "Sign up or Log in to add this plant to your garden"
-                : <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})}>Add to my garden</button>}
+                : <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</button>}
             </div>
           </span>
           <div>
