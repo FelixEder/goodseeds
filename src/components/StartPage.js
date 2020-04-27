@@ -25,7 +25,6 @@ const StartPage = ({reviews, uid, users}) => {
 
   const numPlantsNeedWatering = (users) => {
     if (!users) return null;
-    console.log(users.filter(user => user.id == uid)[0].plants)
     return users
           .filter(user => user.id == uid)[0].plants // Access users plants
           .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length
@@ -123,7 +122,6 @@ const StartPage = ({reviews, uid, users}) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     reviews: state.firestore.ordered.Review,
     uid: state.firebase.auth.uid,
