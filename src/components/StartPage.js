@@ -6,8 +6,30 @@ import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
 import { useHistory } from 'react-router-dom';
 
-const StartPage = ({reviews}) => {
+const StartPage = ({reviews, uid, users}) => {
   const history = useHistory();
+
+
+  // TODO: move to util
+  function treatAsUTC(date) {
+    var result = new Date(date);
+    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+    return result;
+  }
+
+  // TODO: move to util
+  function daysBetween(startDate, endDate) {
+    var millisecondsPerDay = 24 * 60 * 60 * 1000;
+    return Math.floor((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay);
+  }
+
+  const numPlantsNeedWatering = (users) => {
+    if (!users) return null;
+    console.log(users.filter(user => user.id == uid)[0].plants)
+    return users
+          .filter(user => user.id == uid)[0].plants // Access users plants
+          .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length
+  }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
     return(
@@ -56,13 +78,14 @@ const StartPage = ({reviews}) => {
       </span>
     )
   }
-  //test
 
   return(
     <div className='start-page'>
+
       <h1>
         Welcome to Goodseeds
       </h1>
+
       <div>
         <h2>
         Top rated plants
@@ -74,6 +97,7 @@ const StartPage = ({reviews}) => {
           })
           : null}
       </div>
+
       <div>
         <h2>
         Recently reviewed
@@ -85,20 +109,34 @@ const StartPage = ({reviews}) => {
           })
           : null}
       </div>
-    </div>
 
+      <h2>
+        Your garden
+      </h2>
+        {uid === undefined
+          ? (<p>Log in or sign up to see your garden</p>)
+          : (<p>Your garden has {numPlantsNeedWatering(users)} plants in need of watering!</p> ) 
+        }
+      
+    </div>
   )
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
-    reviews: state.firestore.ordered.Review
+    reviews: state.firestore.ordered.Review,
+    uid: state.firebase.auth.uid,
+    users: state.firestore.ordered.Users
   }
 }
 
 export default compose (
-  firestoreConnect(() => {
-    return [{ collection: 'Review' }];
+
+  firestoreConnect((props) => {
+    return [{ collection: 'Review' }, { collection: 'Users', doc: props.uid }];
   }),
+  
+
   connect(mapStateToProps, null),
 )(StartPage);
