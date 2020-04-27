@@ -6,10 +6,6 @@ import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
 import { useHistory } from 'react-router-dom';
 
-
-
-
-
 const StartPage = ({reviews}) => {
   const history = useHistory();
 
@@ -37,16 +33,46 @@ const StartPage = ({reviews}) => {
     )
   }
 
-  const createTopPlantDisplay = () => {
-    return;
+  const createTopPlantDisplay = (plantDetails, reviewDetails) => {
+    return(
+      <span className='image-span'>
+        {plantDetails.images !== undefined && plantDetails.images.length !== 0 ?
+          (<img src={plantDetails.images[0].url} alt="review of plant" height='100' onClick={() => {history.push("/plantDetails/" + plantDetails.id)}}/>)
+          : null
+        }
+        
+        <h2>
+          {plantDetails.common_name ? plantDetails.common_name : plantDetails.scientific_name}
+        </h2>
+
+        <p>
+          Rating: {reviewDetails.rating}
+        </p>
+
+        <p>
+          <b>User: </b>{reviewDetails.username}
+        </p>
+
+      </span>
+    )
   }
   //test
 
   return(
     <div className='start-page'>
-      Welcome to Goodseeds
+      <h1>
+        Welcome to Goodseeds
+      </h1>
       <div>
+        <h2>
         Top rated plants
+        </h2>
+        {reviews ? reviews.map(review => {
+            return (
+              <RenderPromise promise={getPlantDetails(review.plantID)} renderData={({data}) => {return createTopPlantDisplay(data, review)}}/>
+            )
+          })
+          : null}
       </div>
       <div>
         <h2>
