@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import { useParams } from 'react-router-dom'
 import { addReview } from '../store/actions/reviewActions'
 
-const PlantDetails = ({auth,reviews, users}) => {
+const PlantDetails = ({auth,reviews, users, addReview}) => {
   let {id} = useParams();
   return(
     <div className='plant-details'>
@@ -16,9 +16,8 @@ const PlantDetails = ({auth,reviews, users}) => {
     
       {/* Reviews */}
       
-        <AddReviewComponent uid={auth.uid} users={users}/>
- 
-      }
+        <AddReviewComponent uid={auth.uid} users={users} addReview={addReview}/>
+
       { reviews ? 
               <div className='plant-reviews'>
               {reviews.map(review => (
@@ -42,7 +41,7 @@ const PlantDetails = ({auth,reviews, users}) => {
   );
 }
 
-const AddReviewComponent = ({uid,users}) => {
+const AddReviewComponent = ({uid,users, addReview}) => {
   // take plantID from route
   let { id } = useParams();
   //const username = users[uid].name;
@@ -68,7 +67,6 @@ const AddReviewComponent = ({uid,users}) => {
               username: username,
               rating: rating,
               reviewText: reviewText,
-              timestamp: event.timeStamp,
             } 
             // dispatch action with reviewdata
             addReview(reviewData);
