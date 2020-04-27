@@ -8,8 +8,6 @@ import RenderPromise from '../util/renderPromise'
 import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
 
 const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
-  let waterPeriodInput;
-  
   function treatAsUTC(date) {
     var result = new Date(date);
     result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
@@ -25,10 +23,13 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
 
   // Takes in plantID, fetches information about plant and returns image and name
   const createPlantDisplay = (genericPlant, userPlant) => {
+    let waterPeriodInput;
     let border = {};
+    
     if (daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) {
       border = {border: '3px red solid'};
     }
+    
     return (<span className='image-span' style={border}>
     <img src = {genericPlant.images[0].url} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
     {genericPlant.common_name ?
@@ -60,8 +61,13 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
         </div>
         <div>
           Change how often this plant needs to be watered:
-          <form onSubmit={event => { event.preventDefault(); updateWaterPeriod({userID: uid, plantID: userPlant.id, waterPeriod: waterPeriodInput.value}) }}>
-            <input placeholder={userPlant.waterPeriod} type='number' ref={node => waterPeriodInput = node} />
+          <form onSubmit={event => { 
+            event.preventDefault(); 
+            if (waterPeriodInput.value > 0) { 
+              updateWaterPeriod({userID: uid, plantID: userPlant.id, waterPeriod: waterPeriodInput.value}) 
+            }
+          }}>
+            <input placeholder={userPlant.waterPeriod} type='number' ref={node => waterPeriodInput = node} style={{ width: '90%' }} />
             <button>Update</button>
           </form>
         </div>
@@ -84,7 +90,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
           <div>
           {user[0].plants.map(plant => {
             return (
-                <span>
+                <span key={plant}>
                   {
                     // Call RenderPromise, and then render the data
                     <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => (<span>{createPlantDisplay(data, JSON.parse(plant))}</span>)}/>
