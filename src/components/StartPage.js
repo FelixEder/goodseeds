@@ -40,6 +40,7 @@ const StartPage = ({reviews}) => {
   const createTopPlantDisplay = () => {
     return;
   }
+  //test
 
   return(
     <div className='start-page'>
