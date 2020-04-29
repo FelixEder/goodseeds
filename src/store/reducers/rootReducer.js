@@ -1,8 +1,5 @@
 import plantReducer from './plantReducer'
 import reviewReducer from './reviewReducer'
-import numberReducer from './numberReducer';
-import arrayReducer from './arrayReducer';
-
 import authReducer from './authReducer'
 
 import searchResultsReducer from './searchResultsReducer';
