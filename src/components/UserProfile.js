@@ -53,9 +53,16 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
         <div>
           Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago
         </div>
-        <div>
-          Needs to be watered every {userPlant.waterPeriod} days
-        </div>
+        {userPlant.waterPeriod 
+          ? 
+          (<div>
+            Needs to be watered every {userPlant.waterPeriod} days
+          </div>)
+          :
+          (<div className='blinking'>
+            You need to set how often this plant needs to be watered below
+          </div>)
+        }
         <div>
           <button onClick={(() => waterPlant({userID: uid, plantID: userPlant.id}))}>water</button>
         </div>
