@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom'
 
 const PlantDetails = ({reviews}) => {
   let { id } = useParams();
-  console.log(id);
 
   return(
     <div className='plant-details'>
