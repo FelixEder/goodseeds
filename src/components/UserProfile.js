@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import RenderPromise from '../util/renderPromise'
+import RenderPromise from '../util/RenderPromise'
 import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
 
 const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
@@ -25,11 +25,11 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
   const createPlantDisplay = (genericPlant, userPlant) => {
     let waterPeriodInput;
     let border = {};
-    
+
     if (daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) {
       border = {border: '3px red solid'};
     }
-    
+
     return (<span className='image-span' style={border}>
     <img src={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : null} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
     {genericPlant.common_name ?
@@ -53,8 +53,8 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
         <div>
           Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago
         </div>
-        {userPlant.waterPeriod 
-          ? 
+        {userPlant.waterPeriod
+          ?
           (<div>
             Needs to be watered every {userPlant.waterPeriod} days
           </div>)
@@ -68,10 +68,10 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
         </div>
         <div>
           Change how often this plant needs to be watered:
-          <form onSubmit={event => { 
-            event.preventDefault(); 
-            if (waterPeriodInput.value > 0) { 
-              updateWaterPeriod({userID: uid, plantID: userPlant.id, waterPeriod: waterPeriodInput.value}) 
+          <form onSubmit={event => {
+            event.preventDefault();
+            if (waterPeriodInput.value > 0) {
+              updateWaterPeriod({userID: uid, plantID: userPlant.id, waterPeriod: waterPeriodInput.value})
             }
           }}>
             <input placeholder={userPlant.waterPeriod} type='number' ref={node => waterPeriodInput = node} style={{ width: '90%' }} />
