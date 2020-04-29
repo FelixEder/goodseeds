@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const SearchBar = ({updateResults}) => {
   let searchInput;
@@ -9,18 +8,7 @@ const SearchBar = ({updateResults}) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    searchPlants(searchInput.value).then(results => {
-
-      const getImages = results.map(async (plant) => {
-        await getPlantDetails(plant.id).then(details => {
-          plant.imageURL = details.images.length > 0 ? details.images[0].url : null;
-        })
-      });
-
-      Promise.all(getImages)
-      .then(() => { updateResults(results) })
-    });
-    history.push("/SearchResults");
+    history.push("/SearchResults/" + searchInput.value);
   }
 
   return (
@@ -33,11 +21,7 @@ const SearchBar = ({updateResults}) => {
   )
 }
 
-const updateResults = (results) => ({type: "UPDATE", results: results});
-
 export default connect(
   null,
-  (dispatch) => ({
-      updateResults: (results) => dispatch(updateResults(results))
-  })
+  null
 )(SearchBar);
