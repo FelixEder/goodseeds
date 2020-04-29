@@ -39,13 +39,12 @@ const PlantDetails = ({uid,reviews, user, addReview}) => {
     </div>
   );
 }
-// componen that adds a form of adding a review to this plant
+// component that adds a form of adding a review to this plant
 const AddReviewComponent = ({user, addReview}) => {
   // take plantID from route
   let { id } = useParams();
   
   const username = user ? user[0].name : null;
-  console.log('username here: ' + username);
   let rating;
   let reviewText;
   return (
@@ -85,7 +84,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     reviews: state.firestore.ordered.Review,
     uid: state.firebase.auth.uid,

@@ -1,4 +1,4 @@
-import plantReducer from './plantReducer'
+
 import reviewReducer from './reviewReducer'
 import authReducer from './authReducer'
 
@@ -12,7 +12,6 @@ const rootReducer = combineReducers({
     firestore: firestoreReducer,
     firebase: firebaseReducer,
     // array: arrayReducer
-    plant: plantReducer,
     review: reviewReducer,
     auth: authReducer,
     searchResults: searchResultsReducer
