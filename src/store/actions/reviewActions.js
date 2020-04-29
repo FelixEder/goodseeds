@@ -1,16 +1,13 @@
 // Action connected to reviewReducer.
-export const addReview = (reviewData) => {
+export const addReview = (reviewData, plantID) => {
     return (dispatch,getState,{getFirebase, getFirestore}) => {
         // make async call to database
         const firestore = getFirestore();
         const timeStamp = firestore.Timestamp.fromDate(new Date());
-        const newReviewDoc = firestore.collection('Review').doc();
-        newReviewDoc.set({
-            plantID: reviewData.plantID,
-            username: reviewData.username,
-            rating: reviewData.rating,
-            timeStamp: timeStamp,
-            reviewText: reviewData.reviewText,
+        reviewData.timeStamp = timeStamp;
+        const plantReview = firestore.collection('Review').doc(plantID);
+        plantReview.update({
+            Reviews: firestore.FieldValue.arrayUnion(JSON.stringify(reviewData))
         }).then(() => {
             dispatch({type: 'ADD_REVIEW', reviewData})
         }).catch((err) => {

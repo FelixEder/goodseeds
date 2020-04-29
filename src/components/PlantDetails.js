@@ -63,13 +63,12 @@ const AddReviewComponent = ({user, addReview}) => {
           reviewText =document.getElementById('reviewText').value;
           if(reviewText !== null && rating !== null && username !== null){
             const reviewData = {
-              plantID: id, 
               username: username,
               rating: rating,
               reviewText: reviewText,
             } 
             // dispatch action with reviewdata
-            addReview(reviewData);
+            addReview(reviewData, id);
           }
         }}/>
       
@@ -79,7 +78,7 @@ const AddReviewComponent = ({user, addReview}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addReview: (reviewData) => dispatch(addReview(reviewData))
+    addReview: (reviewData, plantID) => dispatch(addReview(reviewData, plantID))
   }
 }
 
