@@ -48,6 +48,9 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
     )
   }
 
+  if(reviews)
+    reviews = reviews.filter(review => review.plantID === id);
+
   return (<div>
     <RenderPromise promise={getPlantDetails(id)} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
     {reviews
