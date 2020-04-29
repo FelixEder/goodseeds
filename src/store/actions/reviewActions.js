@@ -1,4 +1,4 @@
-// Action connected to reviewReducer.
+// Action to add review into firestore
 export const addReview = (reviewData, plantID) => {
     return (dispatch,getState,{getFirebase, getFirestore}) => {
         // make async call to database
