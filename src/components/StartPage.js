@@ -5,29 +5,17 @@ import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
 import { useHistory } from 'react-router-dom';
+import daysBetween from '../util/dateHandler.js'
 
 const StartPage = ({reviews, uid, users}) => {
   const history = useHistory();
 
-
-  // TODO: move to util
-  function treatAsUTC(date) {
-    var result = new Date(date);
-    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-    return result;
-  }
-
-  // TODO: move to util
-  function daysBetween(startDate, endDate) {
-    var millisecondsPerDay = 24 * 60 * 60 * 1000;
-    return Math.floor((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay);
-  }
-
   const numPlantsNeedWatering = (users) => {
     if (!users) return null;
-    return users
+
+    return (users
           .filter(user => user.id == uid)[0].plants // Access users plants
-          .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length
+          .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length)
   }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
@@ -90,9 +78,13 @@ const StartPage = ({reviews, uid, users}) => {
         Top rated plants
         </h2>
         {reviews ? reviews.map(review => {
-            return (
-              <RenderPromise promise={getPlantDetails(review.plantID)} renderData={({data}) => {return createTopPlantDisplay(data, review)}}/>
-            )
+            if (review.plantID) {
+              return (
+                <RenderPromise promise={getPlantDetails(review.plantID)} renderData={({data}) => {return createTopPlantDisplay(data, review)}}/>
+              )
+            } else {
+              return null
+            }           
           })
           : null}
       </div>
@@ -102,9 +94,13 @@ const StartPage = ({reviews, uid, users}) => {
         Recently reviewed
         </h2>
           {reviews ? reviews.map(review => {
-            return (
-              <RenderPromise promise={getPlantDetails(review.plantID)} renderData={({data}) => {return createReviewDisplay(data, review)}}/>
-            )
+            if (review.plantID) {
+              return (
+                <RenderPromise promise={getPlantDetails(review.plantID)} renderData={({data}) => {return createReviewDisplay(data, review)}}/>
+              )
+            } else {
+              return null
+            }
           })
           : null}
       </div>
@@ -112,7 +108,7 @@ const StartPage = ({reviews, uid, users}) => {
       <h2>
         Your garden
       </h2>
-        {uid === undefined
+        {users === undefined
           ? (<p>Log in or sign up to see your garden</p>)
           : (<p>Your garden has {numPlantsNeedWatering(users)} plants in need of watering!</p> ) 
         }
@@ -135,6 +131,5 @@ export default compose (
     return [{ collection: 'Review' }, { collection: 'Users', doc: props.uid }];
   }),
   
-
   connect(mapStateToProps, null),
 )(StartPage);
