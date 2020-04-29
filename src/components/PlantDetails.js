@@ -14,7 +14,7 @@ const PlantDetails = ({uid,reviews, user, addReview}) => {
         <h1>{id}</h1>
       </span>
       {/* Reviews */}
-      
+
         <AddReviewComponent user={user} addReview={addReview}/>
 
       { reviews ? 
@@ -39,7 +39,7 @@ const PlantDetails = ({uid,reviews, user, addReview}) => {
     </div>
   );
 }
-
+// componen that adds a form of adding a review to this plant
 const AddReviewComponent = ({user, addReview}) => {
   // take plantID from route
   let { id } = useParams();
