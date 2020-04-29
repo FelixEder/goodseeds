@@ -53,24 +53,6 @@ const SignIn = ({ signIn, authError }) => {
         // history.push("/userProfile");
     }
     
-    // return(
-    //     <div className='signin'>
-    //         <form onSubmit={handleSubmit}>
-    //             <div className='login-field'>
-    //                 <input placeholder='email' type='text' ref={node => email = node}></input>
-    //             </div>
-    //             <div className='login-field'>
-    //                 <input placeholder='password' type='password' ref={node => password = node}></input>
-    //             </div>
-    //             <button type='submit'>Sign in</button>
-
-    //             {/* If we have an error, display error message */}
-    //             <div className='login-message'>
-    //                 { authError ? <p> { authError } </p> : null}
-    //             </div>
-    //         </form>        
-    //     </div>
-    // );
     return (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
