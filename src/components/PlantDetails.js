@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import { useParams } from 'react-router-dom'
 import { addReview } from '../store/actions/reviewActions'
 
-const PlantDetails = ({auth,reviews, users, addReview}) => {
+const PlantDetails = ({uid,reviews, user, addReview}) => {
   let {id} = useParams();
   return(
     <div className='plant-details'>
@@ -13,10 +13,9 @@ const PlantDetails = ({auth,reviews, users, addReview}) => {
         Funny plant
         <h1>{id}</h1>
       </span>
-    
       {/* Reviews */}
       
-        <AddReviewComponent uid={auth.uid} users={users} addReview={addReview}/>
+        <AddReviewComponent user={user} addReview={addReview}/>
 
       { reviews ? 
               <div className='plant-reviews'>
@@ -41,11 +40,12 @@ const PlantDetails = ({auth,reviews, users, addReview}) => {
   );
 }
 
-const AddReviewComponent = ({uid,users, addReview}) => {
+const AddReviewComponent = ({user, addReview}) => {
   // take plantID from route
   let { id } = useParams();
-  //const username = users[uid].name;
-  const username = "test";
+  
+  const username = user ? user[0].name : null;
+  console.log('username here: ' + username);
   let rating;
   let reviewText;
   return (
@@ -60,8 +60,9 @@ const AddReviewComponent = ({uid,users, addReview}) => {
         <input type='submit' value='Add review' onClick={(event) => {
           // send the complete review data to the action
           rating = document.getElementById('rating').value;
+          rating = parseInt(rating);
           reviewText =document.getElementById('reviewText').value;
-          if(reviewText !== null && rating !== null){
+          if(reviewText !== null && rating !== null && username !== null){
             const reviewData = {
               plantID: id, 
               username: username,
@@ -87,12 +88,15 @@ const mapStateToProps = (state) => {
   console.log(state);
   return {
     reviews: state.firestore.ordered.Review,
-    auth: state.firebase.auth,
-    users: state.firestore.ordered.Users
+    uid: state.firebase.auth.uid,
+    user: state.firestore.ordered.Users
   }
 }
 
 export default compose(
-  firestoreConnect(() => [{collection: 'Review'}, {collection: 'Users'}]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((props) => {
+    if(!props.uid) return [];
+    return [{collection: 'Review'}, {collection: 'Users', doc: props.uid}]
+  }),
 )(PlantDetails)
