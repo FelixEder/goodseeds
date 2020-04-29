@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase'
-import { compose } from 'redux'
-import { useParams } from 'react-router-dom'
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { useParams } from 'react-router-dom';
 
 const PlantDetails = ({reviews}) => {
   let { id } = useParams();
