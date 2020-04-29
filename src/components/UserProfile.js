@@ -31,7 +31,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
     }
     
     return (<span className='image-span' style={border}>
-    <img src = {genericPlant.images[0].url} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
+    <img src={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : null} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
     {genericPlant.common_name ?
       (<span>
         <span>
