@@ -5,11 +5,12 @@ import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const SearchBar = ({updateResults}) => {
   let searchInput;
+  let completeDataInput;
   const history = useHistory();
 
   function handleSubmit(event) {
     event.preventDefault();
-    searchPlants(searchInput.value).then(results => {
+    searchPlants(searchInput.value, completeDataInput.checked).then(results => {
 
       const getImages = results.map(async (plant) => {
         await getPlantDetails(plant.id).then(details => {
@@ -27,6 +28,8 @@ const SearchBar = ({updateResults}) => {
     <div className='search-bar'>
       <form onSubmit={handleSubmit}>
         <input placeholder='Type to search' ref={node => searchInput = node} />
+        <label for='completeDataCheckBox'> Complete data </label>
+        <input type='checkbox' id='completeDataCheckBox' ref={node => completeDataInput = node} />
         <button type="submit">Search</button>
       </form>
     </div>
