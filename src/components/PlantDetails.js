@@ -53,7 +53,7 @@ const AddReviewComponent = ({user, addReview}) => {
         <h1>Add your review on this plant!</h1>
         <label>write your review here:</label><br/>
         <textarea form='addReviewForm' id='reviewText'></textarea><br/>
-        <label for='rating'> rate the plant (between 1 and 5)</label>
+        <label htmlFor='rating'> rate the plant (between 1 and 5)</label>
         <input id='rating' type='number' name='rating' min='1' max='5'></input>
         </form>
         <input type='submit' value='Add review' onClick={(event) => {
