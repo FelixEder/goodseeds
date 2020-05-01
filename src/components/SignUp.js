@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const SignUp = ({signUp, authError}) => {
+const SignUp = ({signUp, authError, uid}) => {
     const [credentials, setCredentials] = React.useState({name: "", email: "", password: ""});
     const classes = useStyles();
     const history = useHistory();
@@ -45,8 +45,11 @@ const SignUp = ({signUp, authError}) => {
         // Dispatch signup action
         signUp(credentials)
 
-        // Navigate to user profile
-        // history.push("/userProfile");
+    }
+
+    // Navigate to user profile if logged in
+    if (uid) {
+      history.push("/userProfile");
     }
     
     return (
@@ -70,7 +73,6 @@ const SignUp = ({signUp, authError}) => {
                     fullWidth
                     id="name"
                     label="name"
-                    // ref={node => name = node}
                     onChange={(event) => setCredentials({...credentials, name: event.target.value})}
                     autoFocus
                   />
@@ -83,7 +85,6 @@ const SignUp = ({signUp, authError}) => {
                     id="email"
                     label="Email Address"
                     name="email"
-                    // ref={node => email = node}
                     onChange={(event) => setCredentials({...credentials, email: event.target.value})}
                     autoComplete="email"
                   />
@@ -97,7 +98,6 @@ const SignUp = ({signUp, authError}) => {
                     label="Password"
                     type="password"
                     id="password"
-                    // ref={node => password = node}
                     onChange={(event) => setCredentials({...credentials, password: event.target.value})}
                     autoComplete="current-password"
                   />
@@ -113,7 +113,7 @@ const SignUp = ({signUp, authError}) => {
               >
                 Sign Up
               </Button>
-              <Grid container justify="flex">
+              <Grid container>
                 <Grid item>
                   <Link href="/login" variant="body2">
                     Already have an account? Sign in
@@ -136,8 +136,10 @@ const SignUp = ({signUp, authError}) => {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
     return {
-        authError: state.auth.authError
+        authError: state.auth.authError,
+        uid: state.firebase.auth.uid
     }
 }
 

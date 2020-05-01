@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-const SignIn = ({ signIn, authError }) => {
+const SignIn = ({ signIn, authError, uid }) => {
     // let email;
     // let password;
     const [credentials, setCredentials] = React.useState({email: "", password: ""})
@@ -43,14 +43,16 @@ const SignIn = ({ signIn, authError }) => {
     const classes = useStyles();
     
     function handleSubmit(event) {
+        console.log(authError)
         event.preventDefault();
 
         // Dispatch signin with values from input field
-        // signIn({email: email.value, password: password.value})
         signIn(credentials)
+    }
 
-        // Navigate to user profile
-        // history.push("/userProfile");
+    // Navigate to user profile if logged in
+    if(uid) {
+      history.push("/userProfile");
     }
     
     return (
@@ -101,7 +103,7 @@ const SignIn = ({ signIn, authError }) => {
               >
                 Sign In
               </Button>
-              <Grid container justify="flex">
+              <Grid container>
                 <Grid item>
                   <Link href="/signup" variant="body2">
                     Don't have an account? Sign up
@@ -126,7 +128,8 @@ const SignIn = ({ signIn, authError }) => {
 
 const mapStateToProps = (state) => {
     return {
-        authError: state.auth.authError
+        authError: state.auth.authError,
+        uid: state.firebase.auth.uid
     }
 }
 
