@@ -3,13 +3,13 @@ export const addReview = (reviewData, plantID) => {
     return (dispatch,getState,{getFirebase, getFirestore}) => {
         // make async call to database
         const firestore = getFirestore();
-        const timeStamp = firestore.Timestamp.fromDate(new Date());
+        const timeStamp = new Date();
         reviewData.timeStamp = timeStamp;
         const plantReviewDocRef = firestore.collection('Plants').doc(plantID);
         if (!plantReviewDocRef) {
             // if the document does not exists create a new
             plantReviewDocRef.set({
-                Reviews: [],
+                reviews: [],
                 average_rating: 0
             })
         }
