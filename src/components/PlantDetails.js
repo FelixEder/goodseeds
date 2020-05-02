@@ -8,7 +8,7 @@ import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
 import { addReview } from '../store/actions/reviewActions'
 
-const PlantDetails = ({uid, user, reviews, addPlant}) => {
+const PlantDetails = ({uid, user, plantReviews, addPlant, addReview}) => {
   let {id} = useParams();
 
   const createPlantDisplay = plantDetails => {
@@ -49,29 +49,29 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
     )
   }
 
- 
   return (<div>
     <RenderPromise promise={getPlantDetails(id)} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
-    {<AddReviewComponent user={user} addReview={addReview}/>
-        reviews
-        ? (<div className='plant-reviews'>
-            {
-              reviews.map(review => (<div className='plant-review'>
-                <span className='plant-review-rating'>
-                  Rating: {review.rating}
-                </span>
+    <AddReviewComponent user={user} addReview={addReview}/>
+    {
+      plantReviews
+      ? (<div className='plant-reviews'>
+          {
+            plantReviews.reviews.map(review => (<div className='plant-review'>
+              <span className='plant-review-rating'>
+                Rating: {JSON.parse(review).rating}
+              </span>
 
-                <span className='plant-review-text'>
-                  Review text: {review.reviewText}
-                </span>
+              <span className='plant-review-text'>
+                Review text: {JSON.parse(review).reviewText}
+              </span>
 
-                <span className='plant-review-user'>
-                  {review.user}
-                </span>
-              </div>))
-            }
-          </div>)
-        : null
+              <span className='plant-review-user'>
+                {JSON.parse(review).username}
+              </span>
+            </div>))
+          }
+        </div>)
+      : null
     }
     </div>
   );
@@ -80,7 +80,7 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
 const AddReviewComponent = ({user, addReview}) => {
   // take plantID from route
   let { id } = useParams();
-  
+
   const username = user ? user[0].name : null;
   let rating;
   let reviewText;
@@ -103,34 +103,31 @@ const AddReviewComponent = ({user, addReview}) => {
               username: username,
               rating: rating,
               reviewText: reviewText,
-            } 
+            }
             // dispatch action with reviewdata
             addReview(reviewData, id);
             document.getElementById('addReviewForm').reset();
           }
         }}/>
-      
+
     </div>
   )
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addReview: (reviewData, plantID) => dispatch(addReview(reviewData, plantID))
+    addReview: (reviewData, plantID) => dispatch(addReview(reviewData, plantID)),
+    addPlant: (plantAction) => dispatch(addPlant(plantAction))
   }
 }
 
 const mapStateToProps = (state) => {
+  let { id } = useParams();
   return {
     uid: state.firebase.auth.uid,
     user: state.firestore.ordered.Users,
-    reviews: state.firestore.ordered.Review
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addPlant: (plantAction) => dispatch(addPlant(plantAction))
+    plantReviews: state.firestore.ordered.Plants,
+    plantID: id
   }
 }
 
@@ -138,7 +135,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => {
     return !props.uid
-    ? [{ collection: 'Review' }]
-    : [{ collection: 'Review' }, { collection: 'Users', doc: props.uid }]
+    ? [{ collection: 'Plants', doc: props.plantID }]
+    : [{ collection: 'Plants', doc: props.plantID }, { collection: 'Users', doc: props.uid }]
   }),
 )(PlantDetails)
