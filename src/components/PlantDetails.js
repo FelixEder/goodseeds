@@ -6,6 +6,7 @@ import {useParams} from 'react-router-dom';
 import {getPlantDetails} from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
+import { addReview } from '../store/actions/reviewActions'
 
 const PlantDetails = ({uid, user, reviews, addPlant}) => {
   let {id} = useParams();
@@ -48,12 +49,11 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
     )
   }
 
-  if(reviews)
-    reviews = reviews.filter(review => review.plantID === id);
-
+ 
   return (<div>
     <RenderPromise promise={getPlantDetails(id)} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
-    {reviews
+    {<AddReviewComponent user={user} addReview={addReview}/>
+        reviews
         ? (<div className='plant-reviews'>
             {
               reviews.map(review => (<div className='plant-review'>
@@ -75,6 +75,49 @@ const PlantDetails = ({uid, user, reviews, addPlant}) => {
     }
     </div>
   );
+}
+// component that adds a form of adding a review to this plant
+const AddReviewComponent = ({user, addReview}) => {
+  // take plantID from route
+  let { id } = useParams();
+  
+  const username = user ? user[0].name : null;
+  let rating;
+  let reviewText;
+  return (
+    <div>
+      <form id='addReviewForm'>
+        <h1>Add your review on this plant!</h1>
+        <label>write your review here:</label><br/>
+        <textarea form='addReviewForm' id='reviewText'></textarea><br/>
+        <label htmlFor='rating'> rate the plant (between 1 and 5)</label>
+        <input id='rating' type='number' name='rating' min='1' max='5'></input>
+        </form>
+        <input type='submit' value='Add review' onClick={(event) => {
+          // send the complete review data to the action
+          rating = document.getElementById('rating').value;
+          rating = parseInt(rating);
+          reviewText =document.getElementById('reviewText').value;
+          if(reviewText !== null && rating !== null && username !== null){
+            const reviewData = {
+              username: username,
+              rating: rating,
+              reviewText: reviewText,
+            } 
+            // dispatch action with reviewdata
+            addReview(reviewData, id);
+            document.getElementById('addReviewForm').reset();
+          }
+        }}/>
+      
+    </div>
+  )
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addReview: (reviewData, plantID) => dispatch(addReview(reviewData, plantID))
+  }
 }
 
 const mapStateToProps = (state) => {
