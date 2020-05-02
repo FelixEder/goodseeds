@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../App.css';
@@ -7,10 +7,9 @@ import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const SearchResults = () => {
   let { searchString } = useParams();
-  let searchResults = "";
-  const history = useHistory();
 
-  console.log(searchString);
+  const [searchResults, setSearchResults] = useState([]);
+  const history = useHistory();
 
   searchPlants(searchString).then(results => {
     const getImages = results.map(async (plant) => {
@@ -20,7 +19,7 @@ const SearchResults = () => {
     });
 
     Promise.all(getImages)
-    .then((result) => console.log(result))
+    .then(setSearchResults(results))
   });
 
   return(
@@ -39,8 +38,6 @@ const SearchResults = () => {
 }
 
 export default connect(
-  (state) => ({
-    searchResults: state.searchResults
-  }),
+  null,
   null
 )(SearchResults);
