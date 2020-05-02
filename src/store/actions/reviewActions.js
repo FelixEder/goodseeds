@@ -4,6 +4,7 @@ export const addReview = (reviewData, plantID) => {
         // make async call to database
         const firestore = getFirestore();
         const timeStamp = new Date();
+        // Add timestamp of review to the data.
         reviewData.timeStamp = timeStamp;
         const plantReviewDocRef = firestore.collection('Plants').doc(plantID);
 
@@ -14,9 +15,6 @@ export const addReview = (reviewData, plantID) => {
                         let data = documentSnapShot.data();
                         let currentAvgRating = parseFloat(data.avg_rating);
                         let numbOfReviews = parseInt(data.reviews.length);
-                        console.log('numbof reviews: ' + numbOfReviews);
-                        console.log('current avg rating: ' + currentAvgRating);
-                        console.log('rating comming in: ' + reviewData.rating);
                         const difference = parseFloat((reviewData.rating - currentAvgRating) / (numbOfReviews + 1));
                         // calculate new average
                         let newAverageRating = currentAvgRating + difference;
