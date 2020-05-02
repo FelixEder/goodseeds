@@ -69,6 +69,7 @@ const AddReviewComponent = ({user, addReview}) => {
             } 
             // dispatch action with reviewdata
             addReview(reviewData, id);
+            document.getElementById('addReviewForm').reset();
           }
         }}/>
       
