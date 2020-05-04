@@ -14,7 +14,7 @@ const SearchBar = ({updateResults}) => {
 
       const getImages = results.map(async (plant) => {
         await getPlantDetails(plant.id).then(details => {
-          plant.imageURL = details.images.length > 0 ? details.images[0].url : null;
+          plant.imageURL = (details && details.images.length > 0) ? details.images[0].url : null;
         })
       });
 
