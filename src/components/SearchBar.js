@@ -2,20 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 const SearchBar = ({updateResults}) => {
+  let searchInput;
+  let completeDataInput;
   const history = useHistory();
-  const [searchstring, setSearchstring] = React.useState("")
 
   function handleSubmit(event) {
     event.preventDefault();
-    searchPlants(searchstring).then(results => {
+    searchPlants(searchInput.value, completeDataInput.checked).then(results => {
 
       const getImages = results.map(async (plant) => {
         await getPlantDetails(plant.id).then(details => {
-          plant.imageURL = details.images.length > 0 ? details.images[0].url : null;
+          plant.imageURL = (details && details.images.length > 0) ? details.images[0].url : null;
         })
       });
 
@@ -28,8 +27,10 @@ const SearchBar = ({updateResults}) => {
   return (
     <div className='search-bar'>
       <form onSubmit={handleSubmit}>
-        <TextField id="filled" label="Type to search" variant="outlined" onChange={(event) => setSearchstring(event.target.value)}/>
-        <Button type="submit" variant="filled" onClick={handleSubmit}>Search</Button>
+        <input placeholder='Type to search' ref={node => searchInput = node} />
+        <label for='completeDataCheckBox'> Complete data </label>
+        <input type='checkbox' id='completeDataCheckBox' ref={node => completeDataInput = node} />
+        <button type="submit">Search</button>
       </form>
     </div>
   )
