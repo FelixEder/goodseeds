@@ -5,6 +5,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
+import logo from '../logo.png';
 import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
