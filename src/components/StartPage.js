@@ -14,9 +14,10 @@ const StartPage = ({plants, uid, users}) => {
 
   const numPlantsNeedWatering = (users) => {
     if (!users || !uid) return null;
+
     return (users
           .filter(user => user.id == uid)[0].plants // Access users plants
-          .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)))
+          .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length)
   }
 
   const sortAvgRating = (a, b) => {
