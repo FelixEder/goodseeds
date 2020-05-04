@@ -48,30 +48,31 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       </div>
     )
   }
-  
+
   return (<div>
     <RenderPromise promise={getPlantDetails(id)} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
-    
+
     <AddReviewComponent user={user} addReview={addReview}/>
     {
       plantReviews
       ? (<div className='plant-reviews'>
           <h3>Reviews</h3><br/>
-          {
-            plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
-              
+          { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
+
               <span className='plant-review-rating'>
                 Rating: {JSON.parse(review).rating}
               </span>
 
               <span className='plant-review-text'>
-                Review text: {JSON.parse(review).reviewText} 
+                Review text: {JSON.parse(review).reviewText}
               </span>
 
               <span className='plant-review-user'>
                 Username: {JSON.parse(review).username}
               </span>
             </div>))
+            :
+            null
           }
         </div>)
       : null
