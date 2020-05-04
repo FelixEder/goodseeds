@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 const SignIn = ({ signIn, authError, uid }) => {
-    // let email;
-    // let password;
     const [credentials, setCredentials] = React.useState({email: "", password: ""})
     const history = useHistory();
     const classes = useStyles();
