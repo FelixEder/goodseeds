@@ -95,9 +95,9 @@ const AddReviewComponent = ({user, addReview}) => {
         <label>write your review here:</label><br/>
         <textarea form='addReviewForm' id='reviewText'></textarea><br/>
         <label htmlFor='rating'> rate the plant (between 1 and 5)</label>
-        <input id='rating' type='number' name='rating' min='1' max='5'></input>
+        <input id='rating' type='number' name='rating' min='1' max='5' onInput={(event) => checkRatingInput(event.target.value)} ></input>
         </form>
-        <input type='submit' value='Add review' onClick={(event) => {
+        <input type='submit' value='Add review'onClick={(event) => {
           // send the complete review data to the action
           rating = document.getElementById('rating').value;
           rating = parseInt(rating);
@@ -116,6 +116,13 @@ const AddReviewComponent = ({user, addReview}) => {
 
     </div>
   )
+}
+const checkRatingInput = (input) => {
+  if (input > 5) {
+    document.getElementById('rating').value = 5;
+  } else if (input < 1) {
+    document.getElementById('rating').value = 1;
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
