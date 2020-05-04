@@ -8,9 +8,9 @@ import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
 import { addReview } from '../store/actions/reviewActions'
 
-const PlantDetails = ({uid, user, plantReviews, addPlant, addReview}) => {
+const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   let {id} = useParams();
-
+  const plantReviews = plants ? plants : null;
   const createPlantDisplay = plantDetails => {
     return (
       <div className='plant-details'>
@@ -48,25 +48,28 @@ const PlantDetails = ({uid, user, plantReviews, addPlant, addReview}) => {
       </div>
     )
   }
-
+  
   return (<div>
     <RenderPromise promise={getPlantDetails(id)} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
+    
     <AddReviewComponent user={user} addReview={addReview}/>
     {
       plantReviews
       ? (<div className='plant-reviews'>
+          <h3>Reviews</h3><br/>
           {
-            plantReviews.reviews.map(review => (<div className='plant-review'>
+            plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
+              
               <span className='plant-review-rating'>
                 Rating: {JSON.parse(review).rating}
               </span>
 
               <span className='plant-review-text'>
-                Review text: {JSON.parse(review).reviewText}
+                Review text: {JSON.parse(review).reviewText} 
               </span>
 
               <span className='plant-review-user'>
-                {JSON.parse(review).username}
+                Username: {JSON.parse(review).username}
               </span>
             </div>))
           }
@@ -122,12 +125,10 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = (state) => {
-  let { id } = useParams();
   return {
     uid: state.firebase.auth.uid,
     user: state.firestore.ordered.Users,
-    plantReviews: state.firestore.ordered.Plants,
-    plantID: id
+    plants: state.firestore.ordered.Plants,
   }
 }
 
@@ -135,7 +136,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect(props => {
     return !props.uid
-    ? [{ collection: 'Plants', doc: props.plantID }]
-    : [{ collection: 'Plants', doc: props.plantID }, { collection: 'Users', doc: props.uid }]
+    ? [{ collection: 'Plants'}]
+    : [{ collection: 'Plants'}, { collection: 'Users', doc: props.uid }]
   }),
 )(PlantDetails)
