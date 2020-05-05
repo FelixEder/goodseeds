@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import RenderPromise from '../util/renderPromise'
+import RenderPromise from '../util/RenderPromise'
 import logo from '../logo.png';
 import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
 import Button from '@material-ui/core/Button';
@@ -100,14 +100,12 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
   // Takes in plantID, fetches information about plant and returns image and name
   const createPlantDisplay = (genericPlant, userPlant) => {
 
-
-    return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card}>
+  return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card}>
     <CardMedia
       className={classes.cardMedia}
       image={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : logo}
       title="Image title"
-      onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}
-    />
+      onClick={() => {history.push("/plantDetails/" + genericPlant.id)}} />
     <CardContent className={classes.cardContent}>
 
       <Typography gutterBottom variant="h5" component="h2">
@@ -118,14 +116,13 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
       Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago
       </Typography>
 
-      
-      {userPlant.waterPeriod 
-          ? 
+      {userPlant.waterPeriod
+          ?
           <Typography><i>Needs to be watered every {userPlant.waterPeriod} days</i></Typography>
           :
           <Typography><i className='blinking'>You need to set how often this plant needs to be watered below</i></Typography>
       }
-      
+
     </CardContent>
     <CardActions>
       <Button size="small" color="primary" onClick={(() => waterPlant({userID: uid, plantID: userPlant.id}))}>
@@ -154,7 +151,6 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
       </FormControl>
     </CardActions>
   </Card>)
-
   }
 
   // If no user is logged in, return to start page
@@ -181,12 +177,12 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            { user ? 
+            { user ?
             user[0].plants.map((plant) => (
               <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => (<Grid item key={plant} xs={12} sm={6} md={4}>{createPlantDisplay(data, JSON.parse(plant))}</Grid>)}/>
             ))
             : null }
-            
+
           </Grid>
         </Container>
       </main>
