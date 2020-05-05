@@ -5,6 +5,7 @@ import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/renderPromise'
+import logo from '../logo.png';
 import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
 
 const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
@@ -31,7 +32,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
     }
     
     return (<span className='image-span' style={border}>
-    <img src={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : null} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
+    <img src={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : logo} height='100' onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}/>
     {genericPlant.common_name ?
       (<span>
         <span>

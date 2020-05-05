@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import '../App.css';
@@ -6,20 +6,22 @@ import { useParams } from 'react-router-dom';
 import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const SearchResults = () => {
-  let { searchString } = useParams();
+  let { searchString, completeData } = useParams();
 
   const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
 
-  searchPlants(searchString).then(results => {
-    const getImages = results.map(async (plant) => {
-      await getPlantDetails(plant.id).then(details => {
-        plant.imageURL = details.images.length > 0 ? details.images[0].url : null;
-      })
-    });
+  useEffect(() => {
+    searchPlants(searchString, completeData).then(results => {
+      const getImages = results.map(async (plant) => {
+        await getPlantDetails(plant.id).then(details => {
+          plant.imageURL = (details && details.images.length > 0) ? details.images[0].url : null;
+        })
+      });
 
-    Promise.all(getImages)
-    .then(setSearchResults(results))
+      Promise.all(getImages)
+      .then(setSearchResults(results))
+    });
   });
 
   return(
