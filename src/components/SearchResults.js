@@ -5,14 +5,13 @@ import '../App.css';
 import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const SearchResults = () => {
-  let query = new URLSearchParams(useLocation().search);
-  let { searchString } = useParams();
+  let { searchString, completeData } = useParams();
 
   const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
-    searchPlants(searchString, query.get('completeData')).then(results => {
+    searchPlants(searchString, completeData === 'true').then(results => {
       const getImages = results.map(async (plant) => {
         await getPlantDetails(plant.id).then(details => {
           plant.imageURL = (details && details.images.length > 0) ? details.images[0].url : null;
@@ -20,9 +19,9 @@ const SearchResults = () => {
       });
 
       Promise.all(getImages)
-      .then(setSearchResults(results))
+      .then(() => { setSearchResults(results) });
     });
-  }, []);
+  }, [searchString, completeData]);
 
   return(
     <div className='search-results'>
