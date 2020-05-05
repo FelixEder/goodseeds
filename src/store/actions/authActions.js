@@ -1,6 +1,7 @@
 export const signIn = credentials => {
+    
     return (dispatch, getState, { getFirebase }) => {
-
+        
         const firebase = getFirebase()
         
         // Sign in with email and password
@@ -13,6 +14,7 @@ export const signIn = credentials => {
             dispatch( {type: 'LOGIN_ERROR', err})
         })
     }
+
 }
 
 export const signOut =  () => {
@@ -51,8 +53,11 @@ export const signUp = (newUser) => {
         .then(() => {
             dispatch({ type: 'SIGNUP_SUCCESS' })
         })
+
         .catch(err => {
             dispatch( {type: 'SIGNUP_ERROR', err})
         })
+
+
     }
 }
