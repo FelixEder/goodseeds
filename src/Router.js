@@ -31,7 +31,7 @@ export default function Router() {
             <UserProfile />
           </Route>
           <Route path="/plantDetails/:id" component={PlantDetails} />
-          <Route path="/SearchResults/:searchString?completeData">
+          <Route path="/SearchResults/:searchString">
             <SearchResults />
           </Route>
         </Switch>
