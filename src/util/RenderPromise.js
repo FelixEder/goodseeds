@@ -4,7 +4,6 @@ const h = React.createElement;
 function RenderPromise({promise, renderData}) {
    const [data, setData] = React.useState(null);
 
-
    React.useEffect(()=>{
         promise.then(x => setData(x))
            	 	.catch(err => setData({error:err}))

@@ -50,6 +50,26 @@
     overflow: hidden;
 }
 
+.plant-image {
+  text-align: center;
+  display:inline-block;
+  vertical-align: top;
+  padding: 10px;
+  overflow: hidden;
+}
+
+#addReviewForm {
+  padding: 10px;
+}
+
+.plant-reviews {
+  padding: 10px;
+}
+
+.plant-details {
+  padding: 10px;
+}
+
 .blinking {
     animation:blinkingText 1.2s infinite;
 }
