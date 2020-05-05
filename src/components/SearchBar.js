@@ -28,6 +28,8 @@ const SearchBar = ({updateResults}) => {
     <div className='search-bar'>
       <form onSubmit={handleSubmit}>
         <input placeholder='Type to search' ref={node => searchInput = node} />
+        <label for='completeDataCheckBox'> Complete data </label>
+        <input type='checkbox' id='completeDataCheckBox' ref={node => completeDataInput = node} />
         <button type="submit">Search</button>
         <label for='completeDataCheckBox'> Complete data </label>
         <input type='checkbox' id='completeDataCheckBox' ref={node => completeDataInput = node} />
