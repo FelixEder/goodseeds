@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import logo from '../logo.png';
 import '../App.css';
 import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
+import RenderPromise from '../util/RenderPromise';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -47,23 +48,60 @@ const useStyles = makeStyles((theme) => ({
 
 const SearchResults = () => {
   let { searchString, completeData } = useParams();
-  const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
   const classes = useStyles();
   
-  useEffect(() => {
-    searchPlants(searchString, completeData === 'true').then(results => {
+  const createSearchPromise = (search, complete) => {
+    return searchPlants(search, complete === 'true').then(async (results) => {
       const getImages = results.map(async (plant) => {
         await getPlantDetails(plant.id).then(details => {
           plant.imageURL = (details && details.images.length > 0) ? details.images[0].url : null;
         })
       });
 
-      Promise.all(getImages)
-      .then(() => { setSearchResults(results) });
+      await Promise.all(getImages)
+      return results;
     });
+  }
+  
+  const [searchPromise, setSearchPromise] = useState(createSearchPromise(searchString, completeData));
+  
+  useEffect(() => {
+    console.log("in useEffect");
+    setSearchPromise(createSearchPromise(searchString, completeData));
   }, [searchString, completeData]);
 
+  const createSearchResults = (data) => {
+    return (
+      <Grid container spacing={4}>
+        {data.map((plant) => (
+        <Grid item key={plant} xs={12} sm={6} md={4}>
+        <Card className={classes.card}>
+        <CardMedia
+        className={classes.cardMedia}
+        image={plant.imageURL ? plant.imageURL : logo}
+        title="Image title"
+        onClick={() => { history.push("/plantDetails/" + plant.id) }}
+        />
+        <CardContent className={classes.cardContent}>
+        
+        <Typography gutterBottom variant="h5" component="h2">
+        {plant.common_name ? plant.common_name : "No common name"}
+        </Typography>
+        
+        <Typography>
+        <i>{plant.scientific_name}</i>
+        </Typography>
+        
+        </CardContent>
+        
+        </Card>
+        </Grid>
+        ))}
+      </Grid>
+    )
+  }
+  
   return (
     <React.Fragment>
       <CssBaseline />
@@ -81,32 +119,9 @@ const SearchResults = () => {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          <Grid container spacing={4}>
-            {searchResults.map((plant) => (
-              <Grid item key={plant} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                    image={plant.imageURL ? plant.imageURL : logo}
-                    title="Image title"
-                    onClick={() => { history.push("/plantDetails/" + plant.id) }}
-                  />
-                  <CardContent className={classes.cardContent}>
-
-                    <Typography gutterBottom variant="h5" component="h2">
-                    {plant.common_name ? plant.common_name : "No common name"}
-                    </Typography>
-
-                    <Typography>
-                    <i>{plant.scientific_name}</i>
-                    </Typography>
-
-                  </CardContent>
-
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          
+          <RenderPromise promise={searchPromise} renderData={({data}) => { return createSearchResults(data) }} />
+          
         </Container>
       </main>
       {/* Footer */}
