@@ -50,7 +50,7 @@ const SearchResults = () => {
   let { searchString, completeData } = useParams();
   const history = useHistory();
   const classes = useStyles();
-  
+
   const createSearchPromise = (search, complete) => {
     return searchPlants(search, complete === 'true').then(async (results) => {
       const getImages = results.map(async (plant) => {
@@ -63,11 +63,10 @@ const SearchResults = () => {
       return results;
     });
   }
-  
+
   const [searchPromise, setSearchPromise] = useState(createSearchPromise(searchString, completeData));
-  
+
   useEffect(() => {
-    console.log("in useEffect");
     setSearchPromise(createSearchPromise(searchString, completeData));
   }, [searchString, completeData]);
 
@@ -84,24 +83,24 @@ const SearchResults = () => {
         onClick={() => { history.push("/plantDetails/" + plant.id) }}
         />
         <CardContent className={classes.cardContent}>
-        
+
         <Typography gutterBottom variant="h5" component="h2">
         {plant.common_name ? plant.common_name : "No common name"}
         </Typography>
-        
+
         <Typography>
         <i>{plant.scientific_name}</i>
         </Typography>
-        
+
         </CardContent>
-        
+
         </Card>
         </Grid>
         ))}
       </Grid>
     )
   }
-  
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -119,9 +118,9 @@ const SearchResults = () => {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          
+
           <RenderPromise promise={searchPromise} renderData={({data}) => { return createSearchResults(data) }} />
-          
+
         </Container>
       </main>
       {/* Footer */}
