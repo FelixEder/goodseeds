@@ -104,7 +104,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
     return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card}>
     <CardMedia
       className={classes.cardMedia}
-      image={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : null}
+      image={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : logo}
       title="Image title"
       onClick={() => {history.push("/plantDetails/" + genericPlant.id)}}
     />
