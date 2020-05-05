@@ -1,9 +1,13 @@
 import getJWTToken from './trefleAuth';
 const ENDPOINT = 'https://trefle.io/api/';
 
-function searchPlants(freeText) {
+function searchPlants(freeText, completeData = false) {
+    let completeDataQuery = "";
+    if (completeData) {
+      completeDataQuery = "&complete_data=true";
+    }
     //return checkToken().then(() => {
-    return createGetPromise(ENDPOINT + "plants?q=" + freeText + "&token=" + JSON.parse(localStorage.getItem("token")).token)
+    return createGetPromise(ENDPOINT + "plants?q=" + freeText + completeDataQuery + "&token=" + JSON.parse(localStorage.getItem("token")).token)
             .then(handleHTTPError)
             .then(response => response.json())
             .catch(console.error);
