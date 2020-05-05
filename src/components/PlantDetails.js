@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
-import {compose} from 'redux';
-import {useParams} from 'react-router-dom';
-import {getPlantDetails} from '../api/trefleApiCalls';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { useParams } from 'react-router-dom';
+import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
 import { addReview } from '../store/actions/reviewActions'
