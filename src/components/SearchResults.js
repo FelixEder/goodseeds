@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import logo from '../logo.png';
 import '../App.css';
+import { searchPlants, getPlantDetails } from '../api/trefleApiCalls';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -44,9 +45,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchResults = ({searchResults}) => {
+const SearchResults = () => {
+  let { searchString, completeData } = useParams();
+  const [searchResults, setSearchResults] = useState([]);
   const history = useHistory();
   const classes = useStyles();
+  
+  useEffect(() => {
+    searchPlants(searchString, completeData === 'true').then(results => {
+      const getImages = results.map(async (plant) => {
+        await getPlantDetails(plant.id).then(details => {
+          plant.imageURL = (details && details.images.length > 0) ? details.images[0].url : null;
+        })
+      });
+
+      Promise.all(getImages)
+      .then(() => { setSearchResults(results) });
+    });
+  }, [searchString, completeData]);
 
   return (
     <React.Fragment>
@@ -109,8 +125,6 @@ const SearchResults = ({searchResults}) => {
 }
 
 export default connect(
-  (state) => ({
-    searchResults: state.searchResults
-  }),
+  null,
   null
 )(SearchResults);

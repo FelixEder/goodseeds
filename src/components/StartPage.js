@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import RenderPromise from '../util/renderPromise'
+import RenderPromise from '../util/RenderPromise'
 import { useHistory } from 'react-router-dom';
 import daysBetween from '../util/dateHandler.js'
 import logo from '../logo.png';
@@ -75,7 +75,7 @@ const StartPage = ({plants, uid, users}) => {
     var randomPlant = potentialPlants[Math.floor(Math.random()*potentialPlants.length)];
     var randomReview = JSON.parse(randomPlant.reviews[[Math.floor(Math.random()*randomPlant.reviews.length)]])
     return <RenderPromise promise={getPlantDetails(randomPlant.id)} renderData={({data}) => {return createReviewDisplay(data, randomReview)}}/>
-    
+
   }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
@@ -205,6 +205,6 @@ export default compose (
   firestoreConnect((props) => {
     return [{ collection: 'Plants' }, { collection: 'Users', doc: props.uid }];
   }),
-  
+
   connect(mapStateToProps, null),
 )(StartPage);
