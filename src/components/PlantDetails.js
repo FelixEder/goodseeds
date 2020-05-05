@@ -56,7 +56,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     {
       plantReviews
       ? (<div className='plant-reviews'>
-          <h3>Reviews</h3><br/>
+          <h3>Reviews</h3>
           { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
 
               <span className='plant-review-rating'>
@@ -69,6 +69,10 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
 
               <span className='plant-review-user'>
                 Username: {JSON.parse(review).username}
+              </span><br/>
+
+              <span className='plant-review-timestamp'>
+                posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
               </span>
             </div>))
             :
@@ -91,9 +95,9 @@ const AddReviewComponent = ({user, addReview}) => {
   return (
     <div>
       <form id='addReviewForm'>
-        <h1>Add your review on this plant!</h1>
-        <label>write your review here:</label><br/>
-        <textarea form='addReviewForm' id='reviewText'></textarea><br/>
+        <h2>Add your review on this plant!</h2>
+        <label>Write your review here:</label><br/>
+        <textarea form='addReviewForm' id='reviewText' rows='5' cols='40'></textarea><br/>
         <label htmlFor='rating'> rate the plant (between 1 and 5)</label>
         <input id='rating' type='number' name='rating' min='1' max='5' onInput={(event) => checkRatingInput(event.target.value)} ></input>
         </form>

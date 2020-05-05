@@ -57,6 +57,18 @@
   overflow: hidden;
 }
 
+#addReviewForm {
+  padding: 10px;
+}
+
+.plant-reviews {
+  padding: 10px;
+}
+
+.plant-details {
+  padding: 10px;
+}
+
 .blinking {
     animation:blinkingText 1.2s infinite;
 }
