@@ -35,6 +35,13 @@
   justify-content: center;
 }
 
+.spinnerClass {
+  height: 40%;
+  align-self: center;
+  display: block;
+  margin: auto;
+}
+
 .nav-bar {
   display: flex;
   flex-direction: row;
