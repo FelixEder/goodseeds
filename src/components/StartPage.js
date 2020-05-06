@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
+import Button from '@material-ui/core/Button';
 import RenderPromise from '../util/RenderPromise'
 import { useHistory } from 'react-router-dom';
 import daysBetween from '../util/dateHandler.js'
@@ -75,11 +76,10 @@ const StartPage = ({plants, uid, users}) => {
     var randomPlant = potentialPlants[Math.floor(Math.random()*potentialPlants.length)];
     var randomReview = JSON.parse(randomPlant.reviews[[Math.floor(Math.random()*randomPlant.reviews.length)]])
     return <RenderPromise promise={getPlantDetails(randomPlant.id)} renderData={({data}) => {return createReviewDisplay(data, randomReview)}}/>
-
   }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
-    return(<Grid item key={plantDetails} xs={1} sm={1} md={4} alignContent="center" alignItems='center'>
+    return(<Grid item key={plantDetails} xs={12} sm={6} md={4}>
     <Card className={classes.card}>
       <CardMedia
         className={classes.cardMedia}
@@ -175,6 +175,7 @@ const StartPage = ({plants, uid, users}) => {
             generateRandomPlantandReview()
             : null
           }
+
           </Grid>
         </Container>
       </main>
