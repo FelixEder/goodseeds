@@ -36,9 +36,9 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  function Alert(props) {
+function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+}
 
 const SignUp = ({signUp, authError, uid}) => {
     const [credentials, setCredentials] = React.useState({name: "", email: "", password: ""});
