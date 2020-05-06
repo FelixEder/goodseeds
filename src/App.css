@@ -16,6 +16,7 @@
   text-align: center;
   padding: 16px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .nav-bar-list-element-link:hover {
@@ -86,4 +87,20 @@
     60%{    color: transparent; }
     99%{    color:transparent;  }
     100%{   color: #000;    }
+}
+
+button {
+  cursor: pointer;
+}
+
+Button {
+  cursor: pointer;
+}
+
+input[type=submit] {
+  cursor: pointer;
+}
+
+CardMedia {
+  cursor: pointer;
 }
