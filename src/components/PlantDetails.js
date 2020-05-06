@@ -58,8 +58,10 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
 
   return (<div>
     <RenderPromise promise={detailsPromise} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} setNull={true} />
-
-    <AddReviewComponent user={user} addReview={addReview}/>
+    {!uid
+      ? 'Sign up or login in to add a review to this plant'
+      :  <AddReviewComponent user={user} addReview={addReview}/>
+    }
     {
       plantReviews
       ? (<div className='plant-reviews'>
