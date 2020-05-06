@@ -10,14 +10,13 @@ export const addReview = (reviewData, plantID) => {
 
         plantReviewDocRef.get()
             .then((documentSnapShot) => {
-                // check if the document exists, if not create a new document and insert fisrt review, if it does exists update the average and insert new review
+                // check if the document exists, if not create a new document and insert first review, if it does exists update the average and insert new review
                 if(documentSnapShot.exists) {
                         let data = documentSnapShot.data();
                         let currentAvgRating = parseFloat(data.avg_rating);
                         let numbOfReviews = parseInt(data.reviews.length);
-                        const difference = parseFloat((reviewData.rating - currentAvgRating) / (numbOfReviews + 1));
                         // calculate new average
-                        let newAverageRating = currentAvgRating + difference;
+                        let newAverageRating = (numbOfReviews * currentAvgRating + reviewData.rating) / (numbOfReviews + 1);
                         // insert new avg_rating and review
                         plantReviewDocRef.update({
                             reviews: firestore.FieldValue.arrayUnion(JSON.stringify(reviewData)),
