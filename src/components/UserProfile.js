@@ -21,6 +21,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import daysBetween from '../util/dateHandler';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -82,17 +83,6 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
     }
 
   };
-
-  function treatAsUTC(date) {
-    var result = new Date(date);
-    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
-    return result;
-  }
-
-  function daysBetween(startDate, endDate) {
-    var millisecondsPerDay = 24 * 60 * 60 * 1000;
-    return Math.floor((treatAsUTC(endDate) - treatAsUTC(startDate)) / millisecondsPerDay);
-  }
 
   const history = useHistory();
   const classes = useStyles();
