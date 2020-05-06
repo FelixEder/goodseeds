@@ -8,10 +8,54 @@ import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
 import { addReview } from '../store/actions/reviewActions'
 import logo from '../logo.png';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    variant: "outlined",
+    border : '2px green solid'
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+}));
 
 const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   let {id} = useParams();
   const [detailsPromise, setDetailsPromise] = useState(getPlantDetails(id));
+  const classes = useStyles();
 
   useEffect(() => {
     setDetailsPromise(getPlantDetails(id))
@@ -66,27 +110,22 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       plantReviews
       ? (<div className='plant-reviews'>
           <h3>Reviews</h3>
+          <Grid xs={1} sm={1} md={4} alignContent="center" alignItems="center">
           { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
-
-              <span className='plant-review-rating'>
-                Rating: {JSON.parse(review).rating}
-              </span>
-
-              <span className='plant-review-text'>
-                Review text: {JSON.parse(review).reviewText}
-              </span>
-
-              <span className='plant-review-user'>
-                Username: {JSON.parse(review).username}
-              </span><br/>
-
-              <span className='plant-review-timestamp'>
-                posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
-              </span>
+              <Card className={classes.card}>
+                <CardHeader title={JSON.parse(review).username + " rated it " + JSON.parse(review).rating}/>
+                <CardContent className={classes.cardContent}>
+                  <span>
+                    {JSON.parse(review).reviewText}
+                  </span><br/>
+                  posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
+              </CardContent>
+            </Card>
             </div>))
             :
             null
           }
+        </Grid>
         </div>)
       : null
     }
