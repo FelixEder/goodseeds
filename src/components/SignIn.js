@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,18 +36,29 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 const SignIn = ({ signIn, authError, uid }) => {
     const [credentials, setCredentials] = React.useState({email: "", password: ""})
+    const [open, setOpen] = React.useState(false)
     const history = useHistory();
     const classes = useStyles();
+
+    function handleClose() {
+      setOpen(false);
+    };
     
     function handleSubmit(event) {
-        console.log(authError)
+
         event.preventDefault();
 
         // Dispatch signin with values from input field
         signIn(credentials)
+
+        // If error, open snackbar
+        if (authError) setOpen(true)
     }
 
     // Navigate to user profile if logged in
@@ -108,17 +121,15 @@ const SignIn = ({ signIn, authError, uid }) => {
                   </Link>
                 </Grid>
               </Grid>
-                    {/* { authError ? <p>{ authError } </p> : null} */}
-            { authError ? 
-                (<Typography component="h1" variant="caption">
-                    {authError}
-                </Typography>)
-            : null
-            }
             </form>
           </div>
           <Box mt={5}>
           </Box>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error">
+              {authError}
+            </Alert>
+          </Snackbar>
         </Container>
       );
 }
