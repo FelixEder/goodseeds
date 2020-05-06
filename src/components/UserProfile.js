@@ -22,6 +22,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import daysBetween from '../util/dateHandler';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -75,13 +78,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
+  const [open, setOpen] = React.useState(false)
+  const [message, setMessage] = React.useState("")
 
   const handleChange = (event, plantID) => {
     if (event) {
       updateWaterPeriod({userID: uid, plantID, waterPeriod: event.target.value})
     }
+    setMessage("Updated water period!")
+    setOpen(true)
 
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const history = useHistory();
@@ -117,7 +132,11 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
 
     </CardContent>
     <CardActions>
-      <Button size="small" color="primary" onClick={(() => waterPlant({userID: uid, plantID: userPlant.id}))}>
+      <Button size="small" color="primary" onClick={(() => {
+                                                            waterPlant({userID: uid, plantID: userPlant.id})
+                                                            setMessage("Watered plant!")
+                                                            setOpen(true)
+                                                            })}>
         Water
       </Button>
         <FormControl className={classes.formControl}>
@@ -178,15 +197,20 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
             : null }
 
           </Grid>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+              {message}
+            </Alert>
+          </Snackbar>
         </Container>
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          This is the end of your garden
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          Search for plants to expand your garden!
         </Typography>
       </footer>
       {/* End footer */}
