@@ -6,6 +6,8 @@ import UserProfile from './components/UserProfile';
 import PlantDetails from './components/PlantDetails';
 import SearchResults from './components/SearchResults';
 import SignUp from './components/SignUp';
+import About from './components/About'
+
 import {
   BrowserRouter,
   Switch,
@@ -33,6 +35,9 @@ export default function Router() {
           <Route path="/plantDetails/:id" component={PlantDetails} />
           <Route path="/SearchResults/:searchString/:completeData">
             <SearchResults />
+          </Route>
+          <Route path="/about">
+            <About />
           </Route>
         </Switch>
       </BrowserRouter>

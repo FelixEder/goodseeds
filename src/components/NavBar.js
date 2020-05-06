@@ -24,7 +24,7 @@ const NavBar = ({signOut, isEmpty}) => {
             <li><Link className='nav-bar-list-element-link' to='/signup'>Sign Up</Link></li>
           </span>
         }
-
+        <li><Link className='nav-bar-list-element-link' to='/about'>About</Link></li>
       </ul>
 
     </div>
