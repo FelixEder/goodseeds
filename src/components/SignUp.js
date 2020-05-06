@@ -13,6 +13,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,16 +36,28 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 const SignUp = ({signUp, authError, uid}) => {
     const [credentials, setCredentials] = React.useState({name: "", email: "", password: ""});
+    const [open, setOpen] = React.useState(false)
     const classes = useStyles();
     const history = useHistory();
     
+    function handleClose() {
+      setOpen(false);
+    };
+
     function handleSubmit(event) {
         event.preventDefault();
         
         // Dispatch signup action
         signUp(credentials)
+
+        // If error, open snackbar
+        if (authError) setOpen(true)
 
     }
 
@@ -121,17 +135,18 @@ const SignUp = ({signUp, authError, uid}) => {
                 </Grid>
               </Grid>
                     {/* { authError ? <p>{ authError } </p> : null} */}
-            { authError ? 
-                (<Typography component="h1" variant="caption">
-                    {authError}
-                </Typography>)
-            : null
-            }
+
             </form>
           </div>
           <Box mt={5}>
           </Box>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error">
+              {authError}
+            </Alert>
+          </Snackbar>
         </Container>
+
       );
 }
 
