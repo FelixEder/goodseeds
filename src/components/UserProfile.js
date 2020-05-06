@@ -112,9 +112,11 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
       {genericPlant.common_name}
       </Typography>
 
-      <Typography>
-      Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago
-      </Typography>
+      
+      {userPlant.lastWatered ? 
+        <Typography>Last watered {daysBetween(new Date(userPlant.lastWatered), new Date())} days ago </Typography>
+      : <Typography>You haven't watered this plant yet</Typography>}
+      
 
       {userPlant.waterPeriod
           ?
