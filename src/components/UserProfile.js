@@ -179,7 +179,9 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
           <Grid container spacing={4}>
             { user ?
             user[0].plants.map((plant) => (
-              <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => (<Grid item key={plant} xs={12} sm={6} md={4}>{createPlantDisplay(data, JSON.parse(plant))}</Grid>)}/>
+              <Grid item key={plant} xs={12} sm={6} md={4}>
+                <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => {return createPlantDisplay(data, JSON.parse(plant))}} setNull={false} />
+              </Grid>
             ))
             : null }
 

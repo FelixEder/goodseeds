@@ -119,9 +119,9 @@ const SearchResults = () => {
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
-          
-          <RenderPromise promise={searchPromise} renderData={({data}) => { return createSearchResults(data) }} />
-          
+
+          <RenderPromise promise={searchPromise} renderData={({data}) => { return createSearchResults(data) }} setNull={true} />
+
         </Container>
       </main>
       {/* Footer */}
