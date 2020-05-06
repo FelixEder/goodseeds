@@ -75,7 +75,8 @@ const StartPage = ({plants, uid, users}) => {
     var potentialPlants = plants.filter(plant => (plant.reviews !== undefined && plant.reviews.length >= 0))
     var randomPlant = potentialPlants[Math.floor(Math.random()*potentialPlants.length)];
     var randomReview = JSON.parse(randomPlant.reviews[[Math.floor(Math.random()*randomPlant.reviews.length)]])
-    return <RenderPromise promise={getPlantDetails(randomPlant.id)} renderData={({data}) => {return createReviewDisplay(data, randomReview)}}/>
+    return <RenderPromise promise={getPlantDetails(randomPlant.id)} renderData={({data}) => {return createReviewDisplay(data, randomReview)}} setNull={false} />
+
   }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
@@ -157,7 +158,7 @@ const StartPage = ({plants, uid, users}) => {
                    .slice(0,3)          // Take first 3 elements
                    .map(plant => {
                      return (
-                       <RenderPromise promise={getPlantDetails(plant.id)} renderData={({data}) => {return createTopPlantDisplay(data, plant)}}/>
+                       <RenderPromise promise={getPlantDetails(plant.id)} renderData={({data}) => {return createTopPlantDisplay(data, plant)}} setNull={false} />
                      )
                    })
            : null}

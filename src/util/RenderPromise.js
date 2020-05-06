@@ -2,11 +2,13 @@ import React from 'react';
 import spinner from '../loading.gif';
 const h = React.createElement;
 
-function RenderPromise({promise, renderData}) {
+function RenderPromise({promise, renderData, setNull}) {
    const [data, setData] = React.useState(null);
 
    React.useEffect(()=>{
-        setData(null);
+        if (setNull) {
+          setData(null);
+        }
         promise.then(x => setData(x))
            	 	.catch(err => setData({error:err}))
    }, [promise]);
