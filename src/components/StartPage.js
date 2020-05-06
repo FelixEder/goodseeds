@@ -85,6 +85,7 @@ const StartPage = ({plants, uid, users}) => {
         className={classes.cardMedia}
         image={(plantDetails.images && plantDetails.images.length > 0) ? plantDetails.images[0].url : logo}
         title="review of plant"
+        onClick={() => {history.push("/plantDetails/" + plantDetails.id)}}
       />
       <CardContent className={classes.cardContent}>
         <Typography gutterBottom variant="h5" component="h2">
@@ -168,7 +169,7 @@ const StartPage = ({plants, uid, users}) => {
            <Typography variant="h5" align="center" color="textSecondary" paragraph>
              Random review
             </Typography>
-          <Grid container spacing={1} alignContent="center" alignItems="center" justify="center">
+          <Grid container spacing={4} justify="center">
           {
             plants ?
             generateRandomPlantandReview()
