@@ -7,15 +7,22 @@ import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
 import { addReview } from '../store/actions/reviewActions'
+import logo from '../logo.png';
 
 const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   let {id} = useParams();
+  const [detailsPromise, setDetailsPromise] = useState(getPlantDetails(id));
+
+  useEffect(() => {
+    setDetailsPromise(getPlantDetails(id))
+  }, [id]);
+
   const plantReviews = plants ? plants : null;
   const createPlantDisplay = plantDetails => {
     return (
       <div className='plant-details'>
           <span className='plant-image'>
-            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : null} width='500px' />
+            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='500px' />
             <div>
               {plantDetails.scientific_name}
             </div>
