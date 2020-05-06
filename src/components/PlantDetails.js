@@ -57,7 +57,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   }
 
   return (<div>
-    <RenderPromise promise={detailsPromise} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} />
+    <RenderPromise promise={detailsPromise} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} setNull={true} />
 
     <AddReviewComponent user={user} addReview={addReview}/>
     {
