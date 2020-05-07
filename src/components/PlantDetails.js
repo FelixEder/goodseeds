@@ -11,8 +11,6 @@ import logo from '../logo.png';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,8 +18,6 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import App from '../App.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -96,7 +92,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       <div>
         <List className= {classes.list}>
           <Typography variant="h4" align="center" gutterBottom>{plantDetails.scientific_name}</Typography>
-          <Typography variant="h6" align="center" gutterBottom>{plantReviews ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating : 'No average rating'}</Typography>
+          <Typography variant="h6" align="center" gutterBottom>{plantReviews ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating.toFixed(1) : 'No average rating'}</Typography>
           <ListItem>
             <span className='plant-image'>
               <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='400px' />
