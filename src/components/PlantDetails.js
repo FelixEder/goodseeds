@@ -95,7 +95,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       plantReviews
       ? (<div className='plant-reviews'>
           <h3>Reviews</h3>
-          { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
+          { plantReviews.find(plant => plant.id === id) && plantReviews.find(plant => plant.id === id).reviews? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
 
               <span className='plant-review-rating'>
                 Rating: {JSON.parse(review).rating}
