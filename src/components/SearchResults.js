@@ -75,7 +75,7 @@ const SearchResults = () => {
     return (
       <Grid container spacing={4}>
         {data.map((plant) => (
-        <Grid item key={plant} xs={12} sm={6} md={4}>
+        <Grid item key={plant.id} xs={12} sm={6} md={4}>
         <Card className={classes.card}>
         <CardMedia
         className={classes.cardMedia}
