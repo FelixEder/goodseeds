@@ -8,14 +8,38 @@ import RenderPromise from '../util/RenderPromise';
 import { addPlant } from '../store/actions/plantActions';
 import { addReview } from '../store/actions/reviewActions'
 import logo from '../logo.png';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+
+const Alert = (props) => {
+  return <MuiAlert elevation={6} variant='filled' {...props}/>
+}
+
 
 const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   let {id} = useParams();
   const [detailsPromise, setDetailsPromise] = useState(getPlantDetails(id));
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setDetailsPromise(getPlantDetails(id))
   }, [id]);
+
+  const handleSubmit = (string) => {
+    if (string ==='addReview') {
+      setMessage('added review to this plant!');
+      setOpen(true)
+    } else if (string === 'addPlant') {
+      setMessage('Added this plant too your garden')
+      setOpen(true);
+    }
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
 
   const plantReviews = plants ? plants : null;
   const createPlantDisplay = plantDetails => {
@@ -29,7 +53,12 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
             <div>
               {!uid
                 ? "Sign up or Log in to add this plant to your garden"
-                : <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</button>}
+                : <button onClick={() =>{
+                  if (window.confirm('Do you want to add this plant to your garden?')) {
+                    addPlant({userID: uid, plantID: plantDetails.id})
+                    handleSubmit('addPlant');
+                  } 
+                  }} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</button>}
             </div>
           </span>
           <div>
@@ -60,7 +89,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     <RenderPromise promise={detailsPromise} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} setNull={true} />
     {!uid
       ? 'Sign up or login in to add a review to this plant'
-      :  <AddReviewComponent user={user} addReview={addReview}/>
+      :  <AddReviewComponent user={user} addReview={addReview} handleSubmit={handleSubmit}/>
     }
     {
       plantReviews
@@ -90,11 +119,16 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
         </div>)
       : null
     }
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success">
+              {message}
+            </Alert>
+          </Snackbar>
     </div>
   );
 }
 // component that adds a form of adding a review to this plant
-const AddReviewComponent = ({user, addReview}) => {
+const AddReviewComponent = ({user, addReview, handleSubmit}) => {
   // take plantID from route
   let { id } = useParams();
 
@@ -123,6 +157,7 @@ const AddReviewComponent = ({user, addReview}) => {
             }
             // dispatch action with reviewdata
             addReview(reviewData, id);
+            handleSubmit('addReview');
             document.getElementById('addReviewForm').reset();
           }
         }}/>
