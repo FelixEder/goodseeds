@@ -70,7 +70,12 @@
   padding: 10px;
 }
 
+.review-layout {
+  position: fixed;
+}
+
 .plant-reviews {
+  position: relative;
   padding: 10px;
 }
 

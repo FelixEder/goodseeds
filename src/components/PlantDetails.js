@@ -124,8 +124,8 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     )
   }
 
-  return (<div>
-    <RenderPromise promise={detailsPromise} renderData={({data}) => (<span>{createPlantDisplay(data)} </span>)} setNull={true} />
+  return (<div className='review-layout'>
+    <RenderPromise promise={detailsPromise} renderData={({data}) => (<div>{createPlantDisplay(data)} </div>)} setNull={true} />
     {!uid
       ? 'Sign up or login in to add a review to this plant'
       :  <AddReviewComponent user={user} addReview={addReview}/>
@@ -163,7 +163,7 @@ const AddReviewComponent = ({user, addReview}) => {
   let rating;
   let reviewText;
   return (
-    <div>
+    <div className='addReviewComponent'>
       <form id='addReviewForm'>
         <h2>Add your review on this plant!</h2>
         <label>Write your review here:</label><br/>
