@@ -66,21 +66,40 @@
   overflow: hidden;
 }
 
-#addReviewForm {
+.posted-reviews {
   padding: 10px;
+  width: 100%
+}
+
+.details-layout {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 .plant-reviews {
   padding: 10px;
+  float: right;
 }
 
 .plant-details {
   padding: 10px;
+  float: left;
+}
+
+.addReviewComponent {
+  padding: 10px;
+}
+
+#rating {
+  width: 50px;
 }
 
 .blinking {
     animation:blinkingText 1.2s infinite;
 }
+
 @keyframes blinkingText{
     0%{     color: #000;    }
     49%{    color: #000; }
