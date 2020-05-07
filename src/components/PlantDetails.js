@@ -79,10 +79,10 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
 
   const handleSubmit = (string) => {
     if (string ==='addReview') {
-      setMessage('added review to this plant!');
-      setOpen(true)
+      setMessage('Added a review for this plant!');
+      setOpen(true);
     } else if (string === 'addPlant') {
-      setMessage('Added this plant to your garden')
+      setMessage('Added this plant to your garden!');
       setOpen(true);
     }
   }
@@ -96,53 +96,54 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     return (
       <div>
         <List className= {classes.list}>
+          <Typography variant="h4" align="center" gutterBottom>{plantDetails.scientific_name}</Typography>
           <ListItem media>
             <span className='plant-image'>
               <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='400px' />
               <div>
-                {plantDetails.scientific_name}
               </div>
               <div>
                 {!uid
                   ? "Sign up or Log in to add this plant to your garden"
                   : <Button variant="contained" color='primary' onClick={() =>{
-                    if (window.confirm('Do you want to add this plant to your garden?')) {
-                      addPlant({userID: uid, plantID: plantDetails.id})
-                      handleSubmit('addPlant');
-                    }
-                  }} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</Button>}
+                      if (window.confirm('Do you want to add this plant to your garden?')) {
+                        addPlant({userID: uid, plantID: plantDetails.id})
+                        handleSubmit('addPlant');
+                      }
+                    }}
+                   disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</Button>}
               </div>
             </span>
           </ListItem>
           <div>
             <ListItem text>
               <div>
-                <b>Common name: </b> {plantDetails.common_name}
+                <b>Common name: </b> {plantDetails.common_name ? plantDetails.common_name : <i>No data</i>}
               </div>
             </ListItem>
             <ListItem text>
               <div>
-                <b>Family common name: </b> {plantDetails.family_common_name}
+                <b>Family common name: </b> {plantDetails.family_common_name ? plantDetails.family_common_name : <i>No data</i>}
               </div>
             </ListItem>
             <ListItem text>
               <div>
-                <b>Scientific name: </b> {plantDetails.scientific_name}
+                <b>Scientific name: </b> {plantDetails.scientific_name ? plantDetails.scientific_name : <i>No data</i>}
               </div>
             </ListItem>
             <ListItem text>
               <div>
-                <b>Duration: </b>  {plantDetails.duration}
+                <b>Duration: </b>  {plantDetails.duration ? plantDetails.duration : <i>No data</i>}
               </div>
             </ListItem>
             <ListItem text>
               <div>
-                <b>Fire resistance: </b>  {plantDetails.main_species.specifications.fire_resistance}
+                <b>Fire resistance: </b>  {plantDetails.main_species.specifications.fire_resistance ? plantDetails.main_species.specifications.fire_resistance : <i>No data</i>}
               </div>
             </ListItem>
             <ListItem>
               <div>
-                <b>Native status: </b>  {plantDetails.native_status}
+                <b>Growth period: </b>  {plantDetails.main_species.specifications.growth_period ? plantDetails.main_species.specifications.growth_period : <i>No data</i>}
               </div>
             </ListItem>
           </div>
@@ -202,15 +203,15 @@ const AddReviewComponent = ({user, addReview, handleSubmit}) => {
         <h2>Add your review on this plant!</h2>
         <label>Write your review here:</label><br/>
         <textarea form='addReviewForm' id='reviewText' rows='5' cols='40'></textarea><br/>
-        <label htmlFor='rating'> rate the plant (between 1 and 5)</label>
+        <label htmlFor='rating'> Rate the plant (between 1 and 5)</label>
         <input id='rating' type='number' name='rating' min='1' max='5' onInput={(event) => checkRatingInput(event.target.value)} ></input>
-        </form>
-        <input type='submit' value='Add review'onClick={(event) => {
+      </form>
+        <Button type='submit' variant='contained' color='secondary' onClick={(event) => {
           // send the complete review data to the action
           rating = document.getElementById('rating').value;
           rating = parseInt(rating);
           reviewText =document.getElementById('reviewText').value;
-          if(reviewText !== null && rating !== null && username !== null){
+          if(reviewText.length > 0 && !isNaN(rating) && username !== null){
             const reviewData = {
               username: username,
               rating: rating,
@@ -221,7 +222,7 @@ const AddReviewComponent = ({user, addReview, handleSubmit}) => {
             handleSubmit('addReview');
             document.getElementById('addReviewForm').reset();
           }
-        }}/>
+        }}>Add review</Button>
 
     </div>
   )
