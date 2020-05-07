@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import Button from '@material-ui/core/Button';
 import RenderPromise from '../util/RenderPromise'
 import { useHistory } from 'react-router-dom';
 import daysBetween from '../util/dateHandler.js'
