@@ -230,7 +230,6 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     uid: state.firebase.auth.uid,
     user: state.firestore.ordered.Users
