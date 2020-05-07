@@ -1,4 +1,5 @@
 import getJWTToken from './trefleAuth';
+// import getJWTTokenLocalhost from './trefleAuth';
 const ENDPOINT = 'https://trefle.io/api/';
 
 function searchPlants(freeText, completeData = false) {
@@ -6,21 +7,21 @@ function searchPlants(freeText, completeData = false) {
     if (completeData) {
       completeDataQuery = "&complete_data=true";
     }
-    //return checkToken().then(() => {
-    return createGetPromise(ENDPOINT + "plants?q=" + freeText + completeDataQuery + "&token=" + JSON.parse(localStorage.getItem("token")).token)
+    return checkToken().then(() => {
+      return createGetPromise(ENDPOINT + "plants?q=" + freeText + completeDataQuery + "&token=" + JSON.parse(localStorage.getItem("token")).token)
             .then(handleHTTPError)
             .then(response => response.json())
             .catch(console.error);
-    //});
+    });
 }
 
 function getPlantDetails(id) {
-    //return checkToken().then(() => {
-    return createGetPromise(ENDPOINT + "plants/" + id + "?token=" + JSON.parse(localStorage.getItem("token")).token)
+    return checkToken().then(() => {
+      return createGetPromise(ENDPOINT + "plants/" + id + "?token=" + JSON.parse(localStorage.getItem("token")).token)
             .then(handleHTTPError)
             .then(response => response.json())
             .catch(console.error);
-    //});
+    });
 }
 
 // ------------Utility functions---------------
@@ -30,20 +31,22 @@ function handleHTTPError(response) {
         return response;
     } else if (response.status == 401) {
         getJWTToken().then(() => { return "invalidToken" });
+        // getJWTTokenLocalhost().then(() => { return "invalidToken" });
     } else {
         throw Error(response.statusText);
     }
 }
 
-// async function checkToken() {
-//     let token = localStorage.getItem("token");
-//     if (!token) {
-//         await getJWTToken();
-//         return Promise.resolve();
-//     } else {
-//         return Promise.resolve();
-//     }
-// }
+async function checkToken() {
+    let token = localStorage.getItem("token");
+    if (!token || Date.now() >= JSON.parse(token).expiration * 1000) {
+        await getJWTToken();
+        // await getJWTTokenLocalhost();
+        return Promise.resolve();
+    } else {
+        return Promise.resolve();
+    }
+}
 
 function createGetPromise(stringRequest) {
     const fetchCall = (stringRequest) => {
