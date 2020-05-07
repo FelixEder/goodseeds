@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(8),
   },
   card: {
-    width: '100%',
+    width: '400px',
     display: 'flex',
     flexDirection: 'column',
     variant: "outlined",
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '56.25%', // 16:9
   },
   cardContent: {
-    flexGrow: 1,
+    flexGrow: 0,
   },
   footer: {
     backgroundColor: theme.palette.background.paper,
@@ -94,23 +94,23 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   const plantReviews = plants ? plants : null;
   const createPlantDisplay = plantDetails => {
     return (
-      <div className='plant-details'>
+      <div>
         <List className= {classes.list}>
           <ListItem media>
             <span className='plant-image'>
-              <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='500px' />
+              <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='400px' />
               <div>
                 {plantDetails.scientific_name}
               </div>
               <div>
                 {!uid
                   ? "Sign up or Log in to add this plant to your garden"
-                  : <button onClick={() =>{
+                  : <Button variant="contained" color='primary' onClick={() =>{
                     if (window.confirm('Do you want to add this plant to your garden?')) {
                       addPlant({userID: uid, plantID: plantDetails.id})
                       handleSubmit('addPlant');
                     }
-                    }} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</button>}
+                  }} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</Button>}
               </div>
             </span>
           </ListItem>
@@ -151,17 +151,18 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     )
   }
 
-  return (<div className='review-layout'>
-    <RenderPromise promise={detailsPromise} renderData={({data}) => (<div>{createPlantDisplay(data)} </div>)} setNull={true} />
+  return (<div className='details-layout'>
+    <RenderPromise promise={detailsPromise} renderData={({data}) => (<div className='plant-details'>{createPlantDisplay(data)} </div>)} setNull={true} />
+    <div  className='plant-reviews'>
     {!uid
       ? 'Sign up or login in to add a review to this plant'
       :  <AddReviewComponent user={user} addReview={addReview} handleSubmit={handleSubmit}/>
     }
     {
       plantReviews
-      ? (<div className='plant-reviews'>
+      ? (<div className='posted-reviews'>
           <h3>Reviews</h3>
-          <Grid item key={plantReviews} xs={1} sm={1} md={4} alignContent="center" alignItems="center">
+          <Grid item key={plantReviews} xs={2} sm={2} md={4} alignContent="center" alignItems="center">
           { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
               <Card className={classes.card}>
                 <CardHeader title={JSON.parse(review).username + " rated it " + JSON.parse(review).rating}/>
@@ -178,11 +179,12 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
         </div>)
       : null
     }
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success">
-              {message}
-            </Alert>
-          </Snackbar>
+    </div>
+    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            {message}
+          </Alert>
+        </Snackbar>
     </div>
   );
 }
