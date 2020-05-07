@@ -36,15 +36,22 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+
 
 const SignIn = ({ signIn, authError, uid }) => {
+
     const [credentials, setCredentials] = React.useState({email: "", password: ""})
     const [open, setOpen] = React.useState(false)
     const history = useHistory();
     const classes = useStyles();
+
+    function Alert(props) {
+      return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
+    React.useEffect(() => {
+      return (() => setOpen(false))
+    }, [open])
 
     function handleClose() {
       setOpen(false);
@@ -109,7 +116,7 @@ const SignIn = ({ signIn, authError, uid }) => {
                 fullWidth
                 variant="contained"
                 color="primary"
-                onClick={handleSubmit}
+                onClick={(event) => handleSubmit(event)}
                 className={classes.submit}
               >
                 Sign In
@@ -125,8 +132,8 @@ const SignIn = ({ signIn, authError, uid }) => {
           </div>
           <Box mt={5}>
           </Box>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="error">
+          <Snackbar open={open} autoHideDuration={6000} onClose={(() => handleClose())}>
+            <Alert severity="error">
               {authError}
             </Alert>
           </Snackbar>
