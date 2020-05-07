@@ -181,21 +181,30 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Your garden
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Water your plants below!
-            </Typography>
+            {user ?
+              user[0].plants.length > 0 ?
+              <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                Water your plants below!
+             </Typography>
+                  : <Typography variant="h5" align="center" color="textSecondary" paragraph>
+                    You have no plants in your garden! Add them by searching for new plants
+                    </Typography>
+              : null
+            }
+            
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            { user ?
-            user[0].plants.map((plant) => (
-              <Grid item key={plant} xs={12} sm={6} md={4}>
-                <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => {return createPlantDisplay(data, JSON.parse(plant))}} setNull={false} />
-              </Grid>
-            ))
-            : null }
+            { user ? 
+                user[0].plants.map((plant) => (
+                  <Grid item key={plant} xs={12} sm={6} md={4}>
+                    <RenderPromise promise={getPlantDetails(JSON.parse(plant).id)} renderData={({data}) => {return createPlantDisplay(data, JSON.parse(plant))}} setNull={false} />
+                  </Grid>
+                ))
+                  : null
+            }
 
           </Grid>
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
