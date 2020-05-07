@@ -46,7 +46,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     return (
       <div className='plant-details'>
           <span className='plant-image'>
-            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='500px' />
+            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='500px' alt={plantDetails.scientific_name}/>
             <div>
               {plantDetails.scientific_name}
             </div>
