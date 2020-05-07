@@ -32,7 +32,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       setMessage('added review to this plant!');
       setOpen(true)
     } else if (string === 'addPlant') {
-      setMessage('Added this plant too your garden')
+      setMessage('Added this plant to your garden')
       setOpen(true);
     }
   }
