@@ -17,6 +17,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import App from '../App.css';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -50,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+  list: {
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
 
 const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
@@ -65,37 +73,53 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   const createPlantDisplay = plantDetails => {
     return (
       <div className='plant-details'>
-          <span className='plant-image'>
-            <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='500px' />
-            <div>
-              {plantDetails.scientific_name}
-            </div>
-            <div>
-              {!uid
-                ? "Sign up or Log in to add this plant to your garden"
-                : <button onClick={() => addPlant({userID: uid, plantID: plantDetails.id})} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</button>}
-            </div>
-          </span>
+        <List className= {classes.list}>
+          <ListItem media>
+            <span className='plant-image'>
+              <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='500px' />
+              <div>
+                {plantDetails.scientific_name}
+              </div>
+              <div>
+                {!uid
+                  ? "Sign up or Log in to add this plant to your garden"
+                  : <Button variant="contained" color="primary" onClick={() => addPlant({userID: uid, plantID: plantDetails.id})} disabled={user ? user[0].plants.some(plant => (JSON.parse(plant).id === plantDetails.id)) : false}>Add to my garden</Button>}
+              </div>
+            </span>
+          </ListItem>
           <div>
-            <div>
-              <b>Common name: </b> {plantDetails.common_name}
-            </div>
-            <div>
-              <b>Family common name: </b> {plantDetails.family_common_name}
-            </div>
-            <div>
-              <b>Scientific name: </b> {plantDetails.scientific_name}
-            </div>
-            <div>
-              <b>Duration: </b>  {plantDetails.duration}
-            </div>
-            <div>
-              <b>Fire resistance: </b>  {plantDetails.main_species.specifications.fire_resistance}
-            </div>
-            <div>
-              <b>Native status: </b>  {plantDetails.native_status}
-            </div>
-        </div>
+            <ListItem text>
+              <div>
+                <b>Common name: </b> {plantDetails.common_name}
+              </div>
+            </ListItem>
+            <ListItem text>
+              <div>
+                <b>Family common name: </b> {plantDetails.family_common_name}
+              </div>
+            </ListItem>
+            <ListItem text>
+              <div>
+                <b>Scientific name: </b> {plantDetails.scientific_name}
+              </div>
+            </ListItem>
+            <ListItem text>
+              <div>
+                <b>Duration: </b>  {plantDetails.duration}
+              </div>
+            </ListItem>
+            <ListItem text>
+              <div>
+                <b>Fire resistance: </b>  {plantDetails.main_species.specifications.fire_resistance}
+              </div>
+            </ListItem>
+            <ListItem>
+              <div>
+                <b>Native status: </b>  {plantDetails.native_status}
+              </div>
+            </ListItem>
+          </div>
+        </List>
       </div>
     )
   }
@@ -110,15 +134,13 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       plantReviews
       ? (<div className='plant-reviews'>
           <h3>Reviews</h3>
-          <Grid xs={1} sm={1} md={4} alignContent="center" alignItems="center">
+          <Grid item key={plantReviews} xs={1} sm={1} md={4} alignContent="center" alignItems="center">
           { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
               <Card className={classes.card}>
                 <CardHeader title={JSON.parse(review).username + " rated it " + JSON.parse(review).rating}/>
                 <CardContent className={classes.cardContent}>
-                  <span>
-                    {JSON.parse(review).reviewText}
-                  </span><br/>
-                  posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
+                  {JSON.parse(review).reviewText}<br/><br/>
+                Posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
               </CardContent>
             </Card>
             </div>))
