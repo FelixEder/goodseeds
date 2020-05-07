@@ -9,7 +9,9 @@ const SearchBar = ({updateResults}) => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    history.push("/SearchResults/" + searchInput.value + "/" + completeDataInput.checked);
+    if (searchInput.value.length > 0) {
+      history.push("/SearchResults/" + searchInput.value + "/" + completeDataInput.checked);
+    }
   }
 
   return (
