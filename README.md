@@ -5,6 +5,7 @@ Goodseeds is a website where you can search for different kinds of plants, creat
 
 ### How to set up
 First, clone this repo to your local machine. In order to make the project work locally with npm, checkout the branch *runLocally*. This branch is set up to use a token for the trefle api configured for localhost:3000, otherwise this branch is an exact copy of master. After checking out the branch, run the command *npm install* followed by *npm start* and a web page should automatically open up in your browser. If not, manually go to *localhost:3000* in your favorite browser to see the web page run locally.
+* You need to have a config file /config/FirebaseConfig.js in order to run this application. Contact us if you need them.
 
 ### What we have done
 We have created our website in React Redux. You start on the start page and you can access the different views by using the corresponding buttons on the nav bar. You can also search for different plants in the search bar. After you get the results from a search, you can click on them in order to find out more details about them. On the details page you can also read reviews about the plant from other users as well as the average rating for the plant. 
