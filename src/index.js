@@ -15,7 +15,7 @@ import thunk from 'redux-thunk'
 // Firebase imports
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-firestore'
-import { reactReduxFirebase, getFirebase, isLoaded } from 'react-redux-firebase'
+import { getFirebase, isLoaded } from 'react-redux-firebase'
 
 // Config import
 import firebaseConfig from './config/FirebaseConfig.js'

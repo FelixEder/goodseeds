@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import Button from '@material-ui/core/Button';
 import RenderPromise from '../util/RenderPromise'
 import { useHistory } from 'react-router-dom';
 import daysBetween from '../util/dateHandler.js'
@@ -14,41 +13,9 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from '../util/styleHandler';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-    cursor: "pointer",
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-}));
 
 const StartPage = ({plants, uid, users}) => {
   const history = useHistory();
@@ -59,14 +26,14 @@ const StartPage = ({plants, uid, users}) => {
     if (!users || !uid) return null;
 
     return (users
-          .filter(user => user.id == uid)[0].plants // Access users plants
+          .filter(user => user.id === uid)[0].plants // Access users plants
           .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length)
   }
 
   const sortAvgRating = (a, b) => {
     if (a.avg_rating > b.avg_rating) {
       return -1
-    } else if (b.avg_rating < a.avg_rating) {
+    } else if (b.avg_rating > a.avg_rating) {
       return 1
     }
     return 0
@@ -81,7 +48,7 @@ const StartPage = ({plants, uid, users}) => {
   }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
-    return(<Grid item key={plantDetails} xs={12} sm={6} md={4}>
+    return(<Grid item key={plantDetails.id} xs={12} sm={6} md={4}>
     <Card className={classes.card}>
       <CardMedia
         className={classes.cardMedia}
@@ -110,7 +77,7 @@ const StartPage = ({plants, uid, users}) => {
   const createTopPlantDisplay = (plantDetails, reviewDetails) => {
 
     return (
-    <Grid item key={plantDetails} xs={12} sm={6} md={4}>
+    <Grid item key={plantDetails.id} xs={12} sm={6} md={4}>
     <Card className={classes.card}>
       <CardMedia
         className={classes.cardMedia}
@@ -131,12 +98,12 @@ const StartPage = ({plants, uid, users}) => {
   }
 
   return (
-    <React.Fragment>
+    <React.Fragment key={uid}>
       <CssBaseline />
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="sm" key={uid}>
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Welcome to Goodseeds!
             </Typography>
@@ -159,7 +126,7 @@ const StartPage = ({plants, uid, users}) => {
                    .slice(0,3)          // Take first 3 elements
                    .map(plant => {
                      return (
-                       <RenderPromise promise={getPlantDetails(plant.id)} renderData={({data}) => {return createTopPlantDisplay(data, plant)}} setNull={false} />
+                       <RenderPromise key={plant.id} promise={getPlantDetails(plant.id)} renderData={({data}) => {return createTopPlantDisplay(data, plant)}} setNull={false} />
                      )
                    })
            : null}

@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise'
 import logo from '../logo.png';
-import { waterPlant, updateWaterPeriod } from '../store/actions/plantActions';
+import { waterPlant, updateWaterPeriod, removePlant } from '../store/actions/plantActions';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -15,7 +15,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from '../util/styleHandler';
 import Container from '@material-ui/core/Container';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,77 +24,33 @@ import Select from '@material-ui/core/Select';
 import daysBetween from '../util/dateHandler';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  cardPlantNeedsWater: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    border : '2px red solid'
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  cardNeedsWater: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    border: '2px red solid'
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-    cursor: "pointer",
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  button: {
-    display: 'block',
-    marginTop: theme.spacing(2),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-}));
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import OpacityIcon from '@material-ui/icons/Opacity';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
+const UserProfile = ({uid, user, waterPlant, updateWaterPeriod, removePlant}) => {
   const [open, setOpen] = React.useState(false)
   const [message, setMessage] = React.useState("")
 
   const handleChange = (event, plantID) => {
     if (event) {
       updateWaterPeriod({userID: uid, plantID, waterPeriod: event.target.value})
+      setMessage("Updated water period!")
+      setOpen(true)
     }
-    setMessage("Updated water period!")
-    setOpen(true)
+
 
   };
+
+  const handleDelete = (plantID) => {
+    removePlant({userID: uid, plantID})
+    setMessage("Deleted plant!")
+    setOpen(true)
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -106,11 +62,11 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
   // Takes in plantID, fetches information about plant and returns image and name
   const createPlantDisplay = (genericPlant, userPlant) => {
 
-  return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card}>
+  return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card} key={userPlant.id}>
     <CardMedia
       className={classes.cardMedia}
       image={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : logo}
-      title="Image title"
+      title={userPlant.scientific_name}
       onClick={() => {history.push("/plantDetails/" + genericPlant.id)}} />
     <CardContent className={classes.cardContent}>
 
@@ -133,18 +89,19 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
 
     </CardContent>
     <CardActions>
-      <Button size="small" color="primary" onClick={(() => {
+      <IconButton justify="left" aria-label="water plant" color="secondary" onClick={(() => {
                                                             waterPlant({userID: uid, plantID: userPlant.id})
                                                             setMessage("Watered plant!")
                                                             setOpen(true)
                                                             })}>
-        Water
-      </Button>
+        <OpacityIcon />
+      </IconButton>
         <FormControl className={classes.formControl}>
         <InputLabel>Water period</InputLabel>
         <Select
           value={userPlant.waterPeriod ? userPlant.waterPeriod : 0}
           onChange={(event) => handleChange(event, userPlant.id)}
+          justify="center"
         >
           <MenuItem value="">
             <em>None</em>
@@ -161,6 +118,9 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
           <MenuItem value={10}>10</MenuItem>
         </Select>
       </FormControl>
+      <IconButton color="secondary" aria-label="delete plant" component="span" justify="right" onClick={(() => {if (window.confirm('Are you sure you want to delete this plant?')) handleDelete(userPlant.id)})}>
+          <DeleteIcon />
+      </IconButton>
     </CardActions>
   </Card>)
   }
@@ -239,7 +199,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
       waterPlant: waterAction => dispatch(waterPlant(waterAction)),
-      updateWaterPeriod: action => dispatch(updateWaterPeriod(action))
+      updateWaterPeriod: action => dispatch(updateWaterPeriod(action)),
+      removePlant: action => dispatch(removePlant(action))
   }
 }
 

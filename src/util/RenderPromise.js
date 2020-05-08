@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import React from 'react';
 import spinner from '../loading.gif';
 const h = React.createElement;
@@ -11,7 +12,7 @@ function RenderPromise({promise, renderData, setNull}) {
         }
         promise.then(x => setData(x))
            	 	.catch(err => setData({error:err}))
-   }, [promise]);
+   }, [promise, setNull]);
 
    return data === null &&  h("img", { className: "spinnerClass", src: spinner })
            || data !== null && !data.error && h(renderData, {data})
