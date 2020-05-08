@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexDirection: 'column'
     },
+    reviewCard: {
+      width: '400px',
+      display: 'flex',
+      flexDirection: 'column',
+      border : '2px green solid'
+    },
     cardNeedsWater: {
       height: '100%',
       display: 'flex',
