@@ -12,7 +12,7 @@ export const addPlant = (action) => {
               plants: firestore.FieldValue.arrayUnion(JSON.stringify({id: action.plantID, lastWatered: null, waterPeriod: null}))
             });
           } else {
-            throw "Plant already exists in garden";
+            throw new Error("Plant already exists in garden");
           }
         })
         .then(() => {
@@ -70,4 +70,27 @@ export const updateWaterPeriod = (action) => {
                 dispatch({type: 'UPDATE_WATER_PERIOD_ERROR', err});
               });
     }
+}
+
+export const removePlant = (action) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    const userDoc = firestore.collection('Users').doc(action.userID);
+    userDoc.get()
+      .then((documentSnapshot) => {
+        if(documentSnapshot.exists) {
+          let data = documentSnapshot.data();
+          let plantArray = data.plants;
+          // remove the plant from the users profile
+          var newPlantArray = plantArray.filter(plant => JSON.parse(plant).id !== action.plantID);
+          userDoc.update({
+            plants: newPlantArray
+          }).then(() => {
+            dispatch({type: 'REMOVED_PLANT'})
+          }).catch(err => {
+            dispatch({type: 'REMOVED_PLANT_ERROR', err})
+          })
+        }
+      })
+  }
 }

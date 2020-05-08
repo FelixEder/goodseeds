@@ -15,36 +15,24 @@ import Container from '@material-ui/core/Container';
 import Avatar from '@material-ui/core/Avatar';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import useStyles from '../util/styleHandler';
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(3),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-  }));
 
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
 
 const SignIn = ({ signIn, authError, uid }) => {
+
     const [credentials, setCredentials] = React.useState({email: "", password: ""})
     const [open, setOpen] = React.useState(false)
     const history = useHistory();
     const classes = useStyles();
+
+    function Alert(props) {
+      return <MuiAlert elevation={6} variant="filled" {...props} />;
+    }
+
+    React.useEffect(() => {
+      return (() => setOpen(false))
+    }, [open])
 
     function handleClose() {
       setOpen(false);
@@ -109,7 +97,7 @@ const SignIn = ({ signIn, authError, uid }) => {
                 fullWidth
                 variant="contained"
                 color="primary"
-                onClick={handleSubmit}
+                onClick={(event) => handleSubmit(event)}
                 className={classes.submit}
               >
                 Sign In
@@ -125,8 +113,8 @@ const SignIn = ({ signIn, authError, uid }) => {
           </div>
           <Box mt={5}>
           </Box>
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="error">
+          <Snackbar open={open} autoHideDuration={6000} onClose={(() => handleClose())}>
+            <Alert severity="error">
               {authError}
             </Alert>
           </Snackbar>
