@@ -20,6 +20,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant='filled' {...props}/>
@@ -54,6 +55,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
   const createPlantDisplay = plantDetails => {
     return (
       <div>
+        <CssBaseline />
         <List className= {classes.list}>
           <Typography variant="h4" align="center" gutterBottom>{plantDetails.scientific_name}</Typography>
           <Typography variant="h6" align="center" gutterBottom>{plantReviews && plantReviews.find(plant => plant.id === id) ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating.toFixed(1) : 'No average rating'}</Typography>
