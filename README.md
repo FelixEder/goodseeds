@@ -34,7 +34,7 @@ We have managed to create a skeleton for connecting our reducers with the collec
 * 2 user consultations were made (see Canvas)
 
 #### Web API
-* Data fetched from www.trefle.io API
+* Data fetched from https://trefle.io/ API
 * Application data shared with all users
 * Spinner when waiting for API fetch
 
