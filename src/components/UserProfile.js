@@ -7,7 +7,6 @@ import { getPlantDetails } from '../api/trefleApiCalls';
 import RenderPromise from '../util/RenderPromise'
 import logo from '../logo.png';
 import { waterPlant, updateWaterPeriod, removePlant } from '../store/actions/plantActions';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -141,7 +140,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod, removePlant}) =>
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Your garden
             </Typography>
-            {user ?
+            {user && user[0] && user[0].plants ?
               user[0].plants.length > 0 ?
               <Typography variant="h5" align="center" color="textSecondary" paragraph>
                 Water your plants below!

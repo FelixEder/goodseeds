@@ -15,6 +15,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../util/styleHandler';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
 
 
 const StartPage = ({plants, uid, users}) => {
@@ -110,6 +111,13 @@ const StartPage = ({plants, uid, users}) => {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               View some of our plants below, or go to your user profile to water your garden.
             </Typography>
+            <Grid justify="center" container >
+                <Grid item>
+                  <Button color="primary" align="center" onClick={(() => history.push("/about"))}>
+                    First time using Goodseeds?
+                  </Button>
+                </Grid>
+              </Grid>
           </Container>
         </div>
         <Container className={classes.cardGrid} maxWidth="md">

@@ -15,8 +15,8 @@ function RenderPromise({promise, renderData, setNull}) {
    }, [promise, setNull]);
 
    return data === null &&  h("img", { className: "spinnerClass", src: spinner })
-           || data !== null && !data.error && h(renderData, {data})
-           || data !== null && data.error && h("div", {}, data.error.toString());
+           || data !== null && data !== undefined && !data.error && h(renderData, {data})
+           || data !== null && data !== undefined && data.error && h("div", {}, data.error.toString());
 };
 
 export default RenderPromise;
