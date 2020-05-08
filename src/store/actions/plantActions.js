@@ -82,9 +82,9 @@ export const removePlant = (action) => {
           let data = documentSnapshot.data();
           let plantArray = data.plants;
           // remove the plant from the users profile
-          plantArray = plantArray.filter(plant => JSON.parse(plant).id !== action.plantID);
+          var newPlantArray = plantArray.filter(plant => JSON.parse(plant).id !== action.plantID);
           userDoc.update({
-            plants: JSON.stringify(plantArray)
+            plants: newPlantArray
           }).then(() => {
             dispatch({type: 'REMOVED_PLANT'})
           }).catch(err => {
