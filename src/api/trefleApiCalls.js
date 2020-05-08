@@ -11,7 +11,7 @@ function searchPlants(freeText, completeData = false) {
       return createGetPromise(ENDPOINT + "plants?q=" + freeText + completeDataQuery + "&token=" + JSON.parse(localStorage.getItem("token")).token)
             .then(handleHTTPError)
             .then(response => response.json())
-            .catch(console.error);
+            .catch(err => console.error("API responded with " + err));
     });
 }
 
@@ -20,7 +20,7 @@ function getPlantDetails(id) {
       return createGetPromise(ENDPOINT + "plants/" + id + "?token=" + JSON.parse(localStorage.getItem("token")).token)
             .then(handleHTTPError)
             .then(response => response.json())
-            .catch(console.error);
+            .catch(err => console.error("API responded with " + err));
     });
 }
 
@@ -29,7 +29,7 @@ function getPlantDetails(id) {
 function handleHTTPError(response) {
     if (response.ok) {
         return response;
-    } else if (response.status == 401) {
+    } else if (response.status === 401) {
         getJWTToken().then(() => { return "invalidToken" });
         // getJWTTokenLocalhost().then(() => { return "invalidToken" });
     } else {
