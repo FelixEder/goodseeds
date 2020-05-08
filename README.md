@@ -10,21 +10,13 @@ We have made a cloud function in firebase that calls the API we are using (trefl
 
 We have set up hosting on firebase (goodseeds.web.app) and we can easily deploy new builds to it from the CLI.
 
-A number of actions and reducers have been done for plants and reviews, such as addPlant, waterPlant and addReview. they have yet to be integrated into the whole app because some of the functionality have not been done yet. They are in production! as such they have not been merged in to the master at the momment. 
+A number of actions and reducers have been done for plants and reviews, such as addPlant, waterPlant and addReview. they have yet to be integrated into the whole app because some of the functionality have not been done yet. They are in production! as such they have not been merged in to the master at the momment.
 
 We have also created the necessary collections in Firestore that we will use. The structure in those collections may be updated as we discover new problems.
 
 We have managed to create a skeleton for connecting our reducers with the collections in Firestore. This means that when dispatching an action from our reducer, we can simultaneously call our database and add our data to the database. Furthermore, we can also retrieve the data from Firestore, with a special reducer.
 
 We have also integrated our search bar with the Trefle API so that you can search for a specific plant and see the output as a simple list of strings.
-
-### What we have yet to do
-What needs to be done before the final submission is that we need to complete all the functionallity for the components. We need to figure out what kind of state we want to store in the app while its running.
-
-At the moment we have only done wery basic styling. We will try to use bootstrap in order to create the styling for the app.
-
-We will also set up user authentication.
-
 
 ### Project file structure
 
