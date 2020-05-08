@@ -1,5 +1,5 @@
-import getJWTToken from './trefleAuth';
-// import getJWTTokenLocalhost from './trefleAuth';
+// import getJWTToken from './trefleAuth';
+import getJWTTokenLocalhost from './trefleAuth';
 const ENDPOINT = 'https://trefle.io/api/';
 
 function searchPlants(freeText, completeData = false) {
@@ -30,8 +30,8 @@ function handleHTTPError(response) {
     if (response.ok) {
         return response;
     } else if (response.status == 401) {
-        getJWTToken().then(() => { return "invalidToken" });
-        // getJWTTokenLocalhost().then(() => { return "invalidToken" });
+        //getJWTToken().then(() => { return "invalidToken" });
+         getJWTTokenLocalhost().then(() => { return "invalidToken" });
     } else {
         throw Error(response.statusText);
     }
@@ -40,8 +40,8 @@ function handleHTTPError(response) {
 async function checkToken() {
     let token = localStorage.getItem("token");
     if (!token || Date.now() >= JSON.parse(token).expiration * 1000) {
-        await getJWTToken();
-        // await getJWTTokenLocalhost();
+        //await getJWTToken();
+         await getJWTTokenLocalhost();
         return Promise.resolve();
     } else {
         return Promise.resolve();
@@ -52,7 +52,7 @@ function createGetPromise(stringRequest) {
     const fetchCall = (stringRequest) => {
       return fetch(stringRequest, {
           "method": "GET",
-          // Would be better if we could use a bearer token, but this doesn't seem to work 
+          // Would be better if we could use a bearer token, but this doesn't seem to work
           //"headers": {
           //    'Authorization': 'Bearer ' + localStorage.getItem("token").token,
         //  }
