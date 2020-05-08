@@ -13,49 +13,13 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from '../util/styleHandler';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    width: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    border : '2px green solid'
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 0,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-  list: {
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
 
 const Alert = (props) => {
   return <MuiAlert elevation={6} variant='filled' {...props}/>
@@ -162,7 +126,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
           <Grid item key={plantReviews} xs={2} sm={2} md={4} >
           { plantReviews.find(plant => plant.id === id) && plantReviews.find(plant => plant.id === id).reviews ? plantReviews.find(plant => plant.id === id).reviews.map(review => (
             <div key={JSON.parse(review).username + JSON.parse(review).timeStamp} className='plant-review'>
-              <Card className={classes.card}>
+              <Card className={classes.reviewCard}>
                 <CardHeader title={JSON.parse(review).username + " rated it " + JSON.parse(review).rating}/>
                 <CardContent className={classes.cardContent}>
                   {JSON.parse(review).reviewText}<br/><br/>

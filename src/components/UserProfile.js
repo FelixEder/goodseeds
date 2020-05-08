@@ -15,7 +15,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import useStyles from '../util/styleHandler';
 import Container from '@material-ui/core/Container';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -24,60 +24,6 @@ import Select from '@material-ui/core/Select';
 import daysBetween from '../util/dateHandler';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-
-
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  cardPlantNeedsWater: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    border : '2px red solid'
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  cardNeedsWater: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    border: '2px red solid'
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-    cursor: "pointer",
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
-  button: {
-    display: 'block',
-    marginTop: theme.spacing(2),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
-  },
-}));
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
