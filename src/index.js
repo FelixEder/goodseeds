@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Router from './Router';
+
+// Get token
+import getJWTToken from './api/trefleAuth';
 
 // Root reducer
 import rootReducer from './store/reducers/rootReducer'
@@ -20,6 +24,23 @@ import { getFirebase, isLoaded } from 'react-redux-firebase'
 // Config import
 import firebaseConfig from './config/FirebaseConfig.js'
 import firebase from 'firebase/app'
+
+// Some themes
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+// Fetch tokens
+//getJWTToken();
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#5aab61'
+    },
+    secondary: {
+      main: '#25523B'
+    }
+  }
+});
 
 const store = createStore(rootReducer,
   compose(
@@ -49,7 +70,9 @@ ReactDOM.render(
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
       <AuthIsLoaded>
-        <App /> 
+      <MuiThemeProvider theme={theme}>
+        <Router />
+      </MuiThemeProvider>
       </AuthIsLoaded>
     </ReactReduxFirebaseProvider>
   </Provider>, 
