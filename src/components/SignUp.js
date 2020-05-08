@@ -132,7 +132,6 @@ const SignUp = ({signUp, authError, uid}) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
     return {
         authError: state.auth.authError,
         uid: state.firebase.auth.uid

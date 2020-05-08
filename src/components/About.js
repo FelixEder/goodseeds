@@ -33,7 +33,7 @@ const About = () => {
                         <br/>
                         <br/>
             </Container>
-            <footer gutterBottom>
+            <footer>
                 <Typography variant="h6" align="center" gutterBottom>
                     This website was created for [DD2642]
                 </Typography>

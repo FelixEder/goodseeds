@@ -12,7 +12,7 @@ export const addPlant = (action) => {
               plants: firestore.FieldValue.arrayUnion(JSON.stringify({id: action.plantID, lastWatered: null, waterPeriod: null}))
             });
           } else {
-            throw "Plant already exists in garden";
+            throw new Error("Plant already exists in garden");
           }
         })
         .then(() => {
