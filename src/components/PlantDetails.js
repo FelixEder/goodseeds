@@ -11,8 +11,6 @@ import logo from '../logo.png';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,8 +18,6 @@ import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import App from '../App.css';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -44,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     width: '400px',
     display: 'flex',
     flexDirection: 'column',
-    variant: "outlined",
     border : '2px green solid'
   },
   cardMedia: {
@@ -97,10 +92,10 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       <div>
         <List className= {classes.list}>
           <Typography variant="h4" align="center" gutterBottom>{plantDetails.scientific_name}</Typography>
-          <Typography variant="h6" align="center" gutterBottom>{plantReviews ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating : 'No average rating'}</Typography>
-          <ListItem media>
+          <Typography variant="h6" align="center" gutterBottom>{plantReviews && plantReviews.find(plant => plant.id === id) ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating.toFixed(1) : 'No average rating'}</Typography>
+          <ListItem>
             <span className='plant-image'>
-              <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='400px' />
+              <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='400px' alt="" />
               <div>
               </div>
               <div>
@@ -117,27 +112,27 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
             </span>
           </ListItem>
           <div>
-            <ListItem text>
+            <ListItem>
               <div>
                 <b>Common name: </b> {plantDetails.common_name ? plantDetails.common_name : <i>No data</i>}
               </div>
             </ListItem>
-            <ListItem text>
+            <ListItem>
               <div>
                 <b>Family common name: </b> {plantDetails.family_common_name ? plantDetails.family_common_name : <i>No data</i>}
               </div>
             </ListItem>
-            <ListItem text>
+            <ListItem>
               <div>
                 <b>Scientific name: </b> {plantDetails.scientific_name ? plantDetails.scientific_name : <i>No data</i>}
               </div>
             </ListItem>
-            <ListItem text>
+            <ListItem>
               <div>
                 <b>Duration: </b>  {plantDetails.duration ? plantDetails.duration : <i>No data</i>}
               </div>
             </ListItem>
-            <ListItem text>
+            <ListItem>
               <div>
                 <b>Fire resistance: </b>  {plantDetails.main_species.specifications.fire_resistance ? plantDetails.main_species.specifications.fire_resistance : <i>No data</i>}
               </div>
@@ -162,23 +157,24 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
     }
     {
       plantReviews
-      ? (<div className='posted-reviews'>
+      ? (<Container className='posted-reviews' aligncontent="center">
           <h3>Reviews</h3>
-          <Grid item key={plantReviews} xs={2} sm={2} md={4} alignContent="center" alignItems="center">
-          { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (<div className='plant-review'>
+          <Grid item key={plantReviews} xs={2} sm={2} md={4} >
+          { plantReviews.find(plant => plant.id === id) && plantReviews.find(plant => plant.id === id).reviews ? plantReviews.find(plant => plant.id === id).reviews.map(review => (
+            <div key={JSON.parse(review).username + JSON.parse(review).timeStamp} className='plant-review'>
               <Card className={classes.card}>
                 <CardHeader title={JSON.parse(review).username + " rated it " + JSON.parse(review).rating}/>
                 <CardContent className={classes.cardContent}>
                   {JSON.parse(review).reviewText}<br/><br/>
-                Posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
-              </CardContent>
-            </Card>
+                  Posted: {new Date(JSON.parse(review).timeStamp).toDateString()}
+                </CardContent>
+              </Card>
             </div>))
             :
             null
           }
         </Grid>
-        </div>)
+      </Container>)
       : null
     }
     </div>

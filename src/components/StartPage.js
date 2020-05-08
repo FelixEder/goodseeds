@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import Button from '@material-ui/core/Button';
 import RenderPromise from '../util/RenderPromise'
 import { useHistory } from 'react-router-dom';
 import daysBetween from '../util/dateHandler.js'
@@ -59,7 +58,7 @@ const StartPage = ({plants, uid, users}) => {
     if (!users || !uid) return null;
 
     return (users
-          .filter(user => user.id == uid)[0].plants // Access users plants
+          .filter(user => user.id === uid)[0].plants // Access users plants
           .filter(plant => (daysBetween(new Date(JSON.parse(plant).lastWatered), new Date()) > JSON.parse(plant).waterPeriod)).length)
   }
 
@@ -81,7 +80,7 @@ const StartPage = ({plants, uid, users}) => {
   }
 
   const createReviewDisplay = (plantDetails, reviewDetails) => {
-    return(<Grid item key={plantDetails} xs={12} sm={6} md={4}>
+    return(<Grid item key={plantDetails.id} xs={12} sm={6} md={4}>
     <Card className={classes.card}>
       <CardMedia
         className={classes.cardMedia}
@@ -110,7 +109,7 @@ const StartPage = ({plants, uid, users}) => {
   const createTopPlantDisplay = (plantDetails, reviewDetails) => {
 
     return (
-    <Grid item key={plantDetails} xs={12} sm={6} md={4}>
+    <Grid item key={plantDetails.id} xs={12} sm={6} md={4}>
     <Card className={classes.card}>
       <CardMedia
         className={classes.cardMedia}
@@ -131,12 +130,12 @@ const StartPage = ({plants, uid, users}) => {
   }
 
   return (
-    <React.Fragment>
+    <React.Fragment key={uid}>
       <CssBaseline />
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="sm" key={uid}>
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
               Welcome to Goodseeds!
             </Typography>
@@ -159,7 +158,7 @@ const StartPage = ({plants, uid, users}) => {
                    .slice(0,3)          // Take first 3 elements
                    .map(plant => {
                      return (
-                       <RenderPromise promise={getPlantDetails(plant.id)} renderData={({data}) => {return createTopPlantDisplay(data, plant)}} setNull={false} />
+                       <RenderPromise key={plant.id} promise={getPlantDetails(plant.id)} renderData={({data}) => {return createTopPlantDisplay(data, plant)}} setNull={false} />
                      )
                    })
            : null}

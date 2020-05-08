@@ -106,7 +106,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod}) => {
   // Takes in plantID, fetches information about plant and returns image and name
   const createPlantDisplay = (genericPlant, userPlant) => {
 
-  return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card}>
+  return (<Card className={(daysBetween(new Date(userPlant.lastWatered), new Date()) >= userPlant.waterPeriod) ? classes.cardPlantNeedsWater : classes.card} key={userPlant.id}>
     <CardMedia
       className={classes.cardMedia}
       image={(genericPlant.images && genericPlant.images.length > 0) ? genericPlant.images[0].url : logo}
