@@ -5,9 +5,6 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Router from './Router';
 
-// Get token
-import getJWTToken from './api/trefleAuth';
-
 // Root reducer
 import rootReducer from './store/reducers/rootReducer'
 
@@ -27,9 +24,6 @@ import firebase from 'firebase/app'
 
 // Some themes
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
-// Fetch tokens
-//getJWTToken();
 
 const theme = createMuiTheme({
   palette: {
