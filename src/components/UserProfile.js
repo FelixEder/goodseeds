@@ -15,7 +15,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-// import { makeStyles } from '@material-ui/core/styles';
 import useStyles from '../util/styleHandler';
 import Container from '@material-ui/core/Container';
 import InputLabel from '@material-ui/core/InputLabel';
