@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { getPlantDetails } from '../api/trefleApiCalls';
-import Button from '@material-ui/core/Button';
 import RenderPromise from '../util/RenderPromise'
 import { useHistory } from 'react-router-dom';
 import daysBetween from '../util/dateHandler.js'
@@ -66,7 +65,7 @@ const StartPage = ({plants, uid, users}) => {
   const sortAvgRating = (a, b) => {
     if (a.avg_rating > b.avg_rating) {
       return -1
-    } else if (b.avg_rating < a.avg_rating) {
+    } else if (b.avg_rating > a.avg_rating) {
       return 1
     }
     return 0
@@ -153,6 +152,10 @@ const StartPage = ({plants, uid, users}) => {
 
           {/* Top rated plants */}
           <Grid container spacing={4}>
+          {plants ?
+             console.log(plants.slice().sort(sortAvgRating))
+           : null
+         }
           {plants ?
              plants.slice()             // Copy array
                    .sort(sortAvgRating) // Sort according to avg rating
