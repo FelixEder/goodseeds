@@ -40,7 +40,7 @@ We have managed to create a skeleton for connecting our reducers with the collec
 
 #### Group cooperation
 * Worked mostly in groups of two, at first with frontend/backend then later more agile
-* Continuously pushed work to github to let group peer review work
+* Continuously pushed work to github to let group peers review work
 
 ### Project file structure
 
