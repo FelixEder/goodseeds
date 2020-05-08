@@ -32,25 +32,25 @@ We have also integrated our search bar with the Trefle API so that you can searc
     - trefleApiCalls.js: contains multiple API call functions to the Trefle API.
     - trefleAuth.js: contains functions for getting JWT token from Firebase
   - components/
+    - About.js: page that shows information about the page
     - NavBar.js: handles navigation of the website
     - PlantDetails.js: what will show when you click a plant in searchresults or your profile garden
     - SearchBar.js: part of the navbar, has a field to type in searches
     - SearchResults.js: shows the result of the search
+    - SignIn.js: page where you can sign into the web page
+    - SignUp.js: page where you can sign up for the web page
     - StartPage.js: startpage with relevant info like, popular plants, recent reviews and reminders to water plants
     - UserProfile.js: profilepage with userinformation and you garden
   - config/
     - FirebaseConfig.js: config file for firebase
   - store/
     - actions/
-      - plantActions.js: redux actions regarding plants.
+      - authActions.js:
+      - plantActions:
       - reviewActions.js: redux actions regarding reviews.
-      - arrayActions.js: testfiles
-      - numberActions.js:Testfiles
     - reducers/
-      - plantReducer.js: reducer for plantActions.
+      - authReducer.js
       - reviewReducer.js reducer for reviewActions.
-      - arrayReducer.js: testfiles
-      - numberReducer.js: testfiles
       - rootReducer.js: combines all the reducers.
       - searchResultsReducer: reducer for searchResultActions.
   - App.js: renders the router.
