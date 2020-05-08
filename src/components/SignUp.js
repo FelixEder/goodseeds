@@ -5,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -110,9 +109,9 @@ const SignUp = ({signUp, authError, uid}) => {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/login" variant="body2">
+                <Button color="primary" onClick={(() => history.push("/login"))}>
                     Already have an account? Sign in
-                  </Link>
+                  </Button>
                 </Grid>
               </Grid>
                     {/* { authError ? <p>{ authError } </p> : null} */}
