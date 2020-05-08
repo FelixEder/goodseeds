@@ -71,3 +71,26 @@ export const updateWaterPeriod = (action) => {
               });
     }
 }
+
+export const removePlant = (action) => {
+  return (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    const userDoc = firestore.collection('Users').doc(action.userID);
+    userDoc.get()
+      .then((documentSnapshot) => {
+        if(documentSnapshot.exists) {
+          let data = documentSnapshot.data();
+          let plantArray = data.plants;
+          // remove the plant from the users profile
+          plantArray = plantArray.filter(plant => JSON.parse(plant).id !== action.plantID);
+          userDoc.update({
+            plants: JSON.stringify(plantArray)
+          }).then(() => {
+            dispatch({type: 'REMOVED_PLANT'})
+          }).catch(err => {
+            dispatch({type: 'REMOVED_PLANT_ERROR', err})
+          })
+        }
+      })
+  }
+}
