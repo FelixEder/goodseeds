@@ -127,10 +127,10 @@ const SearchResults = () => {
       {/* Footer */}
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          This is the end of the search results
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          No more plants to see here!
         </Typography>
       </footer>
       {/* End footer */}
