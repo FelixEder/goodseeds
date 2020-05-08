@@ -28,10 +28,6 @@ const SignIn = ({ signIn, authError, uid }) => {
       return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
 
-    React.useEffect(() => {
-      return (() => setOpen(false))
-    }, [open])
-
     function handleClose() {
       setOpen(false);
     };
@@ -44,7 +40,10 @@ const SignIn = ({ signIn, authError, uid }) => {
         signIn(credentials)
 
         // If error, open snackbar
-        if (authError) setOpen(true)
+        if (authError) {
+          console.log(authError)
+          setOpen(true)
+        }
     }
 
     // Navigate to user profile if logged in
@@ -111,7 +110,7 @@ const SignIn = ({ signIn, authError, uid }) => {
           </div>
           <Box mt={5}>
           </Box>
-          <Snackbar open={open} autoHideDuration={6000} onClose={(() => handleClose())}>
+          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert severity="error">
               {authError}
             </Alert>

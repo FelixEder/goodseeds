@@ -5,6 +5,7 @@ Goodseeds is a website where you can search for different kinds of plants, creat
 
 ### How to set up
 First, clone this repo to your local machine. In order to make the project work locally with npm, checkout the branch *runLocally*. This branch is set up to use a token for the trefle api configured for localhost:3000, otherwise this branch is an exact copy of master. After checking out the branch, run the command *npm install* followed by *npm start* and a web page should automatically open up in your browser. If not, manually go to *localhost:3000* in your favorite browser to see the web page run locally.
+* You need to have a config file /config/FirebaseConfig.js in order to run this application. Contact us if you need them.
 
 ### What we have done
 We have created our website in React Redux. You start on the start page and you can access the different views by using the corresponding buttons on the nav bar. You can also search for different plants in the search bar. After you get the results from a search, you can click on them in order to find out more details about them. On the details page you can also read reviews about the plant from other users as well as the average rating for the plant. 
@@ -13,7 +14,7 @@ We have also added a way to create an account and log into the web site. If you 
 
 We have made a cloud function in firebase that calls the API we are using (trefle.io) to get a JWT-token so that we can make client-side requests to the API. Our website then calls this firebase function when it needs a fresh token. We have set up hosting on firebase (goodseeds.web.app) and we can easily deploy new builds to it from the CLI.
 
-A number of actions and reducers have been done for plants and reviews, such as addPlant, waterPlant and addReview. they have yet to be integrated into the whole app because some of the functionality have not been done yet. They are in production! as such they have not been merged in to the master at the moment.
+A number of actions and reducers have been done for plants and reviews, such as addPlant, waterPlant, addReview and deletePlant.
 
 We have also created the necessary collections in Firestore that we will use. The structure in those collections may be updated as we discover new problems.
 
@@ -33,13 +34,13 @@ We have managed to create a skeleton for connecting our reducers with the collec
 * 2 user consultations were made (see Canvas)
 
 #### Web API
-* Data fetched from www.trefle.io API
+* Data fetched from https://trefle.io/ API
 * Application data shared with all users
 * Spinner when waiting for API fetch
 
 #### Group cooperation
 * Worked mostly in groups of two, at first with frontend/backend then later more agile
-* Continuously pushed work to github to let group peer review work
+* Continuously pushed work to github to let group peers review work
 
 ### Project file structure
 
