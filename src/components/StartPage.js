@@ -121,10 +121,6 @@ const StartPage = ({plants, uid, users}) => {
           {/* Top rated plants */}
           <Grid container spacing={4}>
           {plants ?
-             console.log(plants.slice().sort(sortAvgRating))
-           : null
-         }
-          {plants ?
              plants.slice()             // Copy array
                    .sort(sortAvgRating) // Sort according to avg rating
                    .slice(0,3)          // Take first 3 elements
