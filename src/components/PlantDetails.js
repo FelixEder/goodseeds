@@ -92,7 +92,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       <div>
         <List className= {classes.list}>
           <Typography variant="h4" align="center" gutterBottom>{plantDetails.scientific_name}</Typography>
-          <Typography variant="h6" align="center" gutterBottom>{plantReviews ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating.toFixed(1) : 'No average rating'}</Typography>
+          <Typography variant="h6" align="center" gutterBottom>{plantReviews && plantReviews.find(plant => plant.id === id) ? 'Average rating: ' + plantReviews.find(plant => plant.id === id).avg_rating.toFixed(1) : 'No average rating'}</Typography>
           <ListItem>
             <span className='plant-image'>
               <img src={plantDetails.images.length > 0 ? plantDetails.images[0].url : logo} width='400px' />
@@ -160,7 +160,7 @@ const PlantDetails = ({uid, user, plants, addPlant, addReview}) => {
       ? (<Container className='posted-reviews' aligncontent="center">
           <h3>Reviews</h3>
           <Grid item key={plantReviews} xs={2} sm={2} md={4} >
-          { plantReviews.find(plant => plant.id === id) ? plantReviews.find(plant => plant.id === id).reviews.map(review => (
+          { plantReviews.find(plant => plant.id === id) && plantReviews.find(plant => plant.id === id).reviews ? plantReviews.find(plant => plant.id === id).reviews.map(review => (
             <div key={JSON.parse(review).username + JSON.parse(review).timeStamp} className='plant-review'>
               <Card className={classes.card}>
                 <CardHeader title={JSON.parse(review).username + " rated it " + JSON.parse(review).rating}/>
