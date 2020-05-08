@@ -172,7 +172,7 @@ const UserProfile = ({uid, user, waterPlant, updateWaterPeriod, removePlant}) =>
           <MenuItem value={10}>10</MenuItem>
         </Select>
       </FormControl>
-      <IconButton color="secondary" aria-label="delete plant" component="span" justify="right" onClick={(() => handleDelete(userPlant.id))}>
+      <IconButton color="secondary" aria-label="delete plant" component="span" justify="right" onClick={(() => {if (window.confirm('Are you sure you want to delete this plant?')) handleDelete(userPlant.id)})}>
           <DeleteIcon />
       </IconButton>
     </CardActions>
